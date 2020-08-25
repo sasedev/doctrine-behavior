@@ -1,0 +1,58 @@
+{
+	"name" : "sasedev/doctrine-behavior",
+	"description" : "Doctrine Behavioral Extensions",
+	"keywords" : [
+		"doctrine",
+		"php",
+		"symfony",
+		"Doctrine2 behavioral extensions",
+		"sasedev"
+	],
+	"type" : "symfony-bundle",
+    "homepage": "https://github.com/sasedev/doctrine-behavior",
+    "support": {
+        "email": "sinus@sasedev.net",
+        "issues": "https://github.com/sasedev/doctrine-behavior/issues"
+    },
+	"license" : "MIT",
+    "authors": [
+        {
+            "name": "SALAH Abdelkadeur Seifeddine",
+            "homepage": "https://sasedev.net",
+            "email": "sinus@sasedev.net"
+        }
+    ],
+	"config" : {
+		"bin-dir" : "bin",
+		"component-dir" : "vendor",
+		"preferred-install" : {
+			"*" : "dist"
+		},
+		"process-timeout" : 1200,
+		"sort-packages" : true
+	},
+	"autoload" : {
+		"psr-4" : {
+			"" : "src"
+		}
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"" : "tests"
+		}
+	},
+	"require" : {
+		"php": ">=7.2",
+		"behat/transliterator": "^1.3",
+		"doctrine/mongodb-odm": "^2.1",
+		"doctrine/orm": "^2.7",
+		"symfony/yaml": "^5.1"
+	},
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
