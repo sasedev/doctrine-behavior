@@ -8,7 +8,7 @@
 		"Doctrine2 behavioral extensions",
 		"sasedev"
 	],
-	"type" : "symfony-bundle",
+	"type": "library",
     "homepage": "https://github.com/sasedev/doctrine-behavior",
     "support": {
         "email": "sinus@sasedev.net",
