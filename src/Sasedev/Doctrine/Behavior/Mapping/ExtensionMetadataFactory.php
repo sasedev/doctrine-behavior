@@ -144,7 +144,7 @@ class ExtensionMetadataFactory
     {
 
         $driver = null;
-        $className = get_class($omDriver);
+        $className = \get_class($omDriver);
         $driverName = substr($className, strrpos($className, '\\') + 1);
         if ($omDriver instanceof MappingDriverChain || $driverName == 'DriverChain')
         {

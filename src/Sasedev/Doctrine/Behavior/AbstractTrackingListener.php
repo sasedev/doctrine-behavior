@@ -2,9 +2,11 @@
 namespace Sasedev\Doctrine\Behavior;
 
 use Doctrine\Common\EventArgs;
+use Doctrine\ORM\UnitOfWork;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LoadClassMetadataEventArgs;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\NotifyPropertyChanged;
-use Doctrine\ORM\UnitOfWork;
 use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
 use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
 use Sasedev\Doctrine\Behavior\Mapping\MappedEventSubscriber;
@@ -38,11 +40,11 @@ abstract class AbstractTrackingListener extends MappedEventSubscriber
     /**
      * Maps additional metadata for the Entity
      *
-     * @param EventArgs $eventArgs
+     * @param LoadClassMetadataEventArgs $eventArgs
      *
      * @return void
      */
-    public function loadClassMetadata(EventArgs $eventArgs)
+    public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
     {
 
         $ea = $this->getEventAdapter($eventArgs);
@@ -184,11 +186,11 @@ abstract class AbstractTrackingListener extends MappedEventSubscriber
      * Checks for persisted Timestampable objects
      * to update creation and modification dates
      *
-     * @param EventArgs $args
+     * @param LifecycleEventArgs $args
      *
      * @return void
      */
-    public function prePersist(EventArgs $args)
+    public function prePersist(LifecycleEventArgs $args)
     {
 
         $ea = $this->getEventAdapter($args);

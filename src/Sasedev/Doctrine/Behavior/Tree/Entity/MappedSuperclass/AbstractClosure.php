@@ -1,15 +1,17 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Tree\Entity\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ *
  * @ORM\MappedSuperclass
  */
 abstract class AbstractClosure
 {
+
     /**
+     *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer")
@@ -29,6 +31,7 @@ abstract class AbstractClosure
     protected $descendant;
 
     /**
+     *
      * @ORM\Column(type="integer")
      */
     protected $depth;
@@ -40,7 +43,9 @@ abstract class AbstractClosure
      */
     public function getId()
     {
+
         return $this->id;
+
     }
 
     /**
@@ -52,9 +57,11 @@ abstract class AbstractClosure
      */
     public function setAncestor($ancestor)
     {
+
         $this->ancestor = $ancestor;
 
         return $this;
+
     }
 
     /**
@@ -64,7 +71,9 @@ abstract class AbstractClosure
      */
     public function getAncestor()
     {
+
         return $this->ancestor;
+
     }
 
     /**
@@ -76,9 +85,11 @@ abstract class AbstractClosure
      */
     public function setDescendant($descendant)
     {
+
         $this->descendant = $descendant;
 
         return $this;
+
     }
 
     /**
@@ -88,7 +99,9 @@ abstract class AbstractClosure
      */
     public function getDescendant()
     {
+
         return $this->descendant;
+
     }
 
     /**
@@ -100,9 +113,11 @@ abstract class AbstractClosure
      */
     public function setDepth($depth)
     {
+
         $this->depth = $depth;
 
         return $this;
+
     }
 
     /**
@@ -112,6 +127,9 @@ abstract class AbstractClosure
      */
     public function getDepth()
     {
+
         return $this->depth;
+
     }
+
 }

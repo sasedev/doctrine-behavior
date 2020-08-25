@@ -90,7 +90,7 @@ abstract class MappedEventSubscriber implements EventSubscriber
     protected function getEventAdapter(EventArgs $args)
     {
 
-        $class = get_class($args);
+        $class = \get_class($args);
         if (\preg_match('@Doctrine\\\([^\\\]+)@', $class, $m) && \in_array($m[1], [
             'ODM',
             'ORM'
