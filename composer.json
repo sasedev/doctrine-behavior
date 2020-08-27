@@ -44,7 +44,7 @@
 	"require" : {
 		"php": ">=7.2",
 		"behat/transliterator": "^1.3",
-		"doctrine/common": "^3.0|^2.7"
+		"doctrine/common": "^3.0|^2.13"
 	},
 	"require-dev" : {
 		"doctrine/mongodb-odm": "^2.1",
