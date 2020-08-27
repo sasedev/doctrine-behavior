@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Mapping\Annotation;
 
 /**
@@ -12,4 +11,5 @@ namespace Sasedev\Doctrine\Behavior\Mapping\Annotation;
  */
 class ReferenceMany extends Reference
 {
+
 }

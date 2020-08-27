@@ -145,9 +145,9 @@ class Annotation extends AbstractAnnotationDriver
      *
      * @param string $field
      * @param array $config
-     * @param \Doctrine\ORM\Mapping\ClassMetadata $meta
+     * @param ClassMetadata $meta
      */
-    private function inspectEmbeddedForVersioned($field, array &$config, \Doctrine\ORM\Mapping\ClassMetadata $meta)
+    private function inspectEmbeddedForVersioned($field, array &$config, ClassMetadata $meta)
     {
 
         $сlass = new \ReflectionClass($meta->embeddedClasses[$field]['class']);

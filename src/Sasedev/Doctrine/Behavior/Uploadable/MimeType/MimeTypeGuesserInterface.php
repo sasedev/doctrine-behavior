@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Uploadable\MimeType;
 
 /**
@@ -11,5 +10,7 @@ namespace Sasedev\Doctrine\Behavior\Uploadable\MimeType;
  */
 interface MimeTypeGuesserInterface
 {
+
     public function guess($filePath);
+
 }

@@ -3,7 +3,9 @@ namespace Sasedev\Doctrine\Behavior\Sluggable;
 
 use Doctrine\Common\EventArgs;
 use Doctrine\Persistence\ObjectManager;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
 use Sasedev\Doctrine\Behavior\Mapping\MappedEventSubscriber;
+use Sasedev\Doctrine\Behavior\Sluggable\Handler\SlugHandlerInterface;
 use Sasedev\Doctrine\Behavior\Sluggable\Handler\SlugHandlerWithUniqueCallbackInterface;
 use Sasedev\Doctrine\Behavior\Sluggable\Mapping\Event\SluggableAdapter;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\AbstractWrapper;
@@ -96,7 +98,7 @@ class SluggableListener extends MappedEventSubscriber
      *
      * @param callable $callable
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return void
      */
@@ -105,7 +107,7 @@ class SluggableListener extends MappedEventSubscriber
 
         if (! is_callable($callable))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException('Invalid transliterator callable parameter given');
+            throw new InvalidArgumentException('Invalid transliterator callable parameter given');
         }
         $this->transliterator = $callable;
 
@@ -122,7 +124,7 @@ class SluggableListener extends MappedEventSubscriber
 
         if (! is_callable($callable))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException('Invalid urlizer callable parameter given');
+            throw new InvalidArgumentException('Invalid urlizer callable parameter given');
         }
         $this->urlizer = $callable;
 
@@ -290,7 +292,7 @@ class SluggableListener extends MappedEventSubscriber
      *
      * @param string $class
      *
-     * @return \Sasedev\Doctrine\Behavior\Sluggable\Handler\SlugHandlerInterface
+     * @return SlugHandlerInterface
      */
     private function getHandler($class)
     {
@@ -673,7 +675,7 @@ class SluggableListener extends MappedEventSubscriber
      *
      * @param ObjectManager $om
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return mixed
      */
@@ -695,7 +697,7 @@ class SluggableListener extends MappedEventSubscriber
             return $om->getFilterCollection();
         }
 
-        throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException("ObjectManager does not support filters");
+        throw new InvalidArgumentException("ObjectManager does not support filters");
 
     }
 

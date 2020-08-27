@@ -1,11 +1,11 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Tool\Wrapper;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
-use Sasedev\Doctrine\Behavior\Tool\WrapperInterface;
 use Sasedev\Doctrine\Behavior\Exception\UnsupportedObjectManagerException;
+use Sasedev\Doctrine\Behavior\Tool\WrapperInterface;
 
 /**
  * Wraps entity or proxy for more convenient
@@ -51,9 +51,9 @@ abstract class AbstractWrapper implements WrapperInterface
      * @param object $object
      * @param ObjectManager $om
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UnsupportedObjectManagerException
+     * @throws UnsupportedObjectManagerException
      *
-     * @return \Sasedev\Doctrine\Behavior\Tool\WrapperInterface
+     * @return WrapperInterface
      */
     public static function wrap($object, ObjectManager $om)
     {

@@ -3,9 +3,9 @@ namespace Sasedev\Doctrine\Behavior\Sortable;
 
 use Doctrine\Common\Comparable;
 use Doctrine\Common\EventArgs;
+use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Proxy;
-use Doctrine\Common\Util\ClassUtils;
 use Sasedev\Doctrine\Behavior\Mapping\MappedEventSubscriber;
 use Sasedev\Doctrine\Behavior\Sortable\Mapping\Event\SortableAdapter;
 

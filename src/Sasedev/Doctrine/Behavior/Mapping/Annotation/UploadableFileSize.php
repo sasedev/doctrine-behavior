@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Mapping\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
@@ -16,4 +15,5 @@ use Doctrine\Common\Annotations\Annotation;
  */
 final class UploadableFileSize extends Annotation
 {
+
 }

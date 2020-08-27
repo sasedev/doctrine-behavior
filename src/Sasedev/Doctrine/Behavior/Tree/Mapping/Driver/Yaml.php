@@ -86,8 +86,7 @@ class Yaml extends File implements Driver
                     {
                         if (! $validator->isValidFieldForPathSource($meta, $field))
                         {
-                            throw new InvalidMappingException(
-                                "Tree PathSource field - [{$field}] type is not valid. It can be any of the integer variants, double, float or string in class - {$meta->name}");
+                            throw new InvalidMappingException("Tree PathSource field - [{$field}] type is not valid. It can be any of the integer variants, double, float or string in class - {$meta->name}");
                         }
                         $config['path_source'] = $field;
                     }
@@ -129,8 +128,7 @@ class Yaml extends File implements Driver
                     {
                         if (! $validator->isValidFieldForRoot($meta, $field))
                         {
-                            throw new InvalidMappingException(
-                                "Tree root field - [{$field}] type is not valid and must be any of the 'integer' types or 'string' in class - {$meta->name}");
+                            throw new InvalidMappingException("Tree root field - [{$field}] type is not valid and must be any of the 'integer' types or 'string' in class - {$meta->name}");
                         }
                         $config['root'] = $field;
                     }
@@ -138,12 +136,10 @@ class Yaml extends File implements Driver
                     {
                         if (! $validator->isValidFieldForPath($meta, $field))
                         {
-                            throw new InvalidMappingException(
-                                "Tree Path field - [{$field}] type is not valid. It must be string or text in class - {$meta->name}");
+                            throw new InvalidMappingException("Tree Path field - [{$field}] type is not valid. It must be string or text in class - {$meta->name}");
                         }
 
-                        $treePathInfo = isset($fieldMapping['sasedev']['treePath']) ? $fieldMapping['sasedev']['treePath'] : $fieldMapping['sasedev'][array_search(
-                            'treePath', $fieldMapping['sasedev'])];
+                        $treePathInfo = isset($fieldMapping['sasedev']['treePath']) ? $fieldMapping['sasedev']['treePath'] : $fieldMapping['sasedev'][array_search('treePath', $fieldMapping['sasedev'])];
 
                         if (is_array($treePathInfo) && isset($treePathInfo['separator']))
                         {
@@ -156,8 +152,7 @@ class Yaml extends File implements Driver
 
                         if (strlen($separator) > 1)
                         {
-                            throw new InvalidMappingException(
-                                "Tree Path field - [{$field}] Separator {$separator} is invalid. It must be only one character long.");
+                            throw new InvalidMappingException("Tree Path field - [{$field}] Separator {$separator} is invalid. It must be only one character long.");
                         }
 
                         if (is_array($treePathInfo) && isset($treePathInfo['appendId']))
@@ -197,8 +192,7 @@ class Yaml extends File implements Driver
                     {
                         if (! $validator->isValidFieldForPathSource($meta, $field))
                         {
-                            throw new InvalidMappingException(
-                                "Tree PathSource field - [{$field}] type is not valid. It can be any of the integer variants, double, float or string in class - {$meta->name}");
+                            throw new InvalidMappingException("Tree PathSource field - [{$field}] type is not valid. It can be any of the integer variants, double, float or string in class - {$meta->name}");
                         }
                         $config['path_source'] = $field;
                     }
@@ -206,8 +200,7 @@ class Yaml extends File implements Driver
                     {
                         if (! $validator->isValidFieldForPathSource($meta, $field))
                         {
-                            throw new InvalidMappingException(
-                                "Tree PathHash field - [{$field}] type is not valid and must be 'string' in class - {$meta->name}");
+                            throw new InvalidMappingException("Tree PathHash field - [{$field}] type is not valid and must be 'string' in class - {$meta->name}");
                         }
                         $config['path_hash'] = $field;
                     }
@@ -215,8 +208,7 @@ class Yaml extends File implements Driver
                     {
                         if (! $validator->isValidFieldForLocktime($meta, $field))
                         {
-                            throw new InvalidMappingException(
-                                "Tree LockTime field - [{$field}] type is not valid. It must be \"date\" in class - {$meta->name}");
+                            throw new InvalidMappingException("Tree LockTime field - [{$field}] type is not valid. It must be \"date\" in class - {$meta->name}");
                         }
                         $config['lock_time'] = $field;
                     }
@@ -244,8 +236,7 @@ class Yaml extends File implements Driver
                         // if (! $rel = $this->getRelatedClassName($meta, $relationMapping['targetEntity'])) {
                         if (! $this->getRelatedClassName($meta, $relationMapping['targetEntity']))
                         {
-                            throw new InvalidMappingException(
-                                "Unable to find ancestor/parent child relation through ancestor field - [{$field}] in class - {$meta->name}");
+                            throw new InvalidMappingException("Unable to find ancestor/parent child relation through ancestor field - [{$field}] in class - {$meta->name}");
                         }
                         $config['parent'] = $field;
                     }
@@ -254,8 +245,7 @@ class Yaml extends File implements Driver
                         // if (! $rel = $this->getRelatedClassName($meta, $relationMapping['targetEntity'])) {
                         if (! $this->getRelatedClassName($meta, $relationMapping['targetEntity']))
                         {
-                            throw new InvalidMappingException(
-                                "Unable to find root-descendant relation through root field - [{$field}] in class - {$meta->name}");
+                            throw new InvalidMappingException("Unable to find root-descendant relation through root field - [{$field}] in class - {$meta->name}");
                         }
                         $config['root'] = $field;
                     }

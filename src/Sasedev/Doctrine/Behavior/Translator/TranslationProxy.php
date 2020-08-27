@@ -52,7 +52,8 @@ class TranslationProxy
         $this->coll = $coll;
 
         $translationClass = new \ReflectionClass($class);
-        if (! $translationClass->implementsInterface('Sasedev\Doctrine\Behavior\Translator\TranslationInterface')) {
+        if (! $translationClass->implementsInterface('Sasedev\Doctrine\Behavior\Translator\TranslationInterface'))
+        {
             throw new \InvalidArgumentException(sprintf('Translation class should implement Sasedev\Doctrine\Behavior\Translator\TranslationInterface, "%s" given', $class));
         }
 
@@ -62,15 +63,19 @@ class TranslationProxy
     {
 
         $matches = [];
-        if (preg_match('/^(set|get)(.*)$/', $method, $matches)) {
+        if (preg_match('/^(set|get)(.*)$/', $method, $matches))
+        {
             $property = lcfirst($matches[2]);
 
-            if (\in_array($property, $this->properties)) {
-                switch ($matches[1]) {
+            if (\in_array($property, $this->properties))
+            {
+                switch ($matches[1])
+                {
                     case 'get':
                         return $this->getTranslatedValue($property);
                     case 'set':
-                        if (isset($arguments[0])) {
+                        if (isset($arguments[0]))
+                        {
                             $this->setTranslatedValue($property, $arguments[0]);
 
                             return $this;
@@ -84,7 +89,8 @@ class TranslationProxy
             $method
         ), $arguments);
 
-        if ($this->translatable === $return) {
+        if ($this->translatable === $return)
+        {
             return $this;
         }
 
@@ -95,8 +101,10 @@ class TranslationProxy
     public function __get($property)
     {
 
-        if (\in_array($property, $this->properties)) {
-            if (method_exists($this, $getter = 'get' . ucfirst($property))) {
+        if (\in_array($property, $this->properties))
+        {
+            if (method_exists($this, $getter = 'get' . ucfirst($property)))
+            {
                 return $this->$getter;
             }
 
@@ -110,8 +118,10 @@ class TranslationProxy
     public function __set($property, $value)
     {
 
-        if (\in_array($property, $this->properties)) {
-            if (method_exists($this, $setter = 'set' . ucfirst($property))) {
+        if (\in_array($property, $this->properties))
+        {
+            if (method_exists($this, $setter = 'set' . ucfirst($property)))
+            {
                 return $this->$setter($value);
             }
 
@@ -186,8 +196,10 @@ class TranslationProxy
     private function findOrCreateTranslationForProperty($property, $locale)
     {
 
-        foreach ($this->coll as $translation) {
-            if ($locale === $translation->getLocale() && $property === $translation->getProperty()) {
+        foreach ($this->coll as $translation)
+        {
+            if ($locale === $translation->getLocale() && $property === $translation->getProperty())
+            {
                 return $translation;
             }
         }

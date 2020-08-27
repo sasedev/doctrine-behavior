@@ -1,10 +1,13 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Tree\Document\MongoDB\Repository;
 
+use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\UnitOfWork;
+use Sasedev\Doctrine\Behavior\Exception\InvalidMappingException;
 use Sasedev\Doctrine\Behavior\Tree\RepositoryUtils;
 use Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface;
 use Sasedev\Doctrine\Behavior\Tree\RepositoryInterface;
@@ -39,7 +42,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
         {
             foreach ($listeners as $listener)
             {
-                if ($listener instanceof \Sasedev\Doctrine\Behavior\Tree\TreeListener)
+                if ($listener instanceof TreeListener)
                 {
                     $treeListener = $listener;
                     break;
@@ -53,15 +56,14 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
 
         if (is_null($treeListener))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidMappingException('This repository can be attached only to ODM MongoDB tree listener');
+            throw new InvalidMappingException('This repository can be attached only to ODM MongoDB tree listener');
         }
 
         $this->listener = $treeListener;
         if (! $this->validate())
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidMappingException(
-                'This repository cannot be used for tree type: ' . $treeListener->getStrategy($em, $class->name)
-                    ->getName());
+            throw new InvalidMappingException('This repository cannot be used for tree type: ' . $treeListener->getStrategy($em, $class->name)
+                ->getName());
         }
 
         $this->repoUtils = new RepositoryUtils($this->dm, $this->getClassMetadata(), $this->listener, $this);
@@ -71,7 +73,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
     /**
      * Sets the RepositoryUtilsInterface instance
      *
-     * @param \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface $repoUtils
+     * @param RepositoryUtilsInterface $repoUtils
      *
      * @return $this
      */
@@ -87,7 +89,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
     /**
      * Returns the RepositoryUtilsInterface instance
      *
-     * @return \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface|null
+     * @return RepositoryUtilsInterface|null
      */
     public function getRepoUtils()
     {
@@ -120,7 +122,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
 
     /**
      *
-     * @see \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface::setChildrenIndex
+     * @see RepositoryUtilsInterface::setChildrenIndex
      */
     public function setChildrenIndex($childrenIndex)
     {
@@ -131,7 +133,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
 
     /**
      *
-     * @see \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface::getChildrenIndex
+     * @see RepositoryUtilsInterface::getChildrenIndex
      */
     public function getChildrenIndex()
     {
@@ -167,7 +169,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
      * @param
      *            string - Sort direction ("asc" or "desc")
      *
-     * @return \Doctrine\ODM\MongoDB\Query\Builder - QueryBuilder object
+     * @return Builder - QueryBuilder object
      */
     abstract public function getRootNodesQueryBuilder($sortByField = null, $direction = 'asc');
 
@@ -179,7 +181,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
      * @param
      *            string - Sort direction ("asc" or "desc")
      *
-     * @return \Doctrine\ODM\MongoDB\Query\Query - Query object
+     * @return Query - Query object
      */
     abstract public function getRootNodesQuery($sortByField = null, $direction = 'asc');
 
@@ -195,7 +197,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
      * @param boolean $includeNode
      *            - Include node in results?
      *
-     * @return \Doctrine\ODM\MongoDB\Query\Builder - QueryBuilder object
+     * @return Builder - QueryBuilder object
      */
     abstract public function getNodesHierarchyQueryBuilder($node = null, $direct = false, array $options = [], $includeNode = false);
 
@@ -211,7 +213,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
      * @param boolean $includeNode
      *            - Include node in results?
      *
-     * @return \Doctrine\ODM\MongoDB\Query\Query - Query object
+     * @return Query - Query object
      */
     abstract public function getNodesHierarchyQuery($node = null, $direct = false, array $options = [], $includeNode = false);
 
@@ -230,7 +232,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
      * @param bool $includeNode
      *            - Include the root node in results?
      *
-     * @return \Doctrine\ODM\MongoDB\Query\Builder - QueryBuilder object
+     * @return Builder - QueryBuilder object
      */
     abstract public function getChildrenQueryBuilder($node = null, $direct = false, $sortByField = null, $direction = 'ASC', $includeNode = false);
 
@@ -249,7 +251,7 @@ abstract class AbstractTreeRepository extends DocumentRepository implements Repo
      * @param bool $includeNode
      *            - Include the root node in results?
      *
-     * @return \Doctrine\ODM\MongoDB\Query\Query - Query object
+     * @return Query - Query object
      */
     abstract public function getChildrenQuery($node = null, $direct = false, $sortByField = null, $direction = 'ASC', $includeNode = false);
 

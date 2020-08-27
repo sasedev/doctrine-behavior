@@ -3,10 +3,8 @@ namespace Sasedev\Doctrine\Behavior;
 
 use Doctrine\Common\EventArgs;
 use Doctrine\ORM\UnitOfWork;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Doctrine\Persistence\Event\LoadClassMetadataEventArgs;
-use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\NotifyPropertyChanged;
+use Doctrine\Persistence\Mapping\ClassMetadata;
 use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
 use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
 use Sasedev\Doctrine\Behavior\Mapping\MappedEventSubscriber;
@@ -40,11 +38,11 @@ abstract class AbstractTrackingListener extends MappedEventSubscriber
     /**
      * Maps additional metadata for the Entity
      *
-     * @param LoadClassMetadataEventArgs $eventArgs
+     * @param EventArgs $eventArgs
      *
      * @return void
      */
-    public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
+    public function loadClassMetadata(EventArgs $eventArgs)
     {
 
         $ea = $this->getEventAdapter($eventArgs);
@@ -186,11 +184,11 @@ abstract class AbstractTrackingListener extends MappedEventSubscriber
      * Checks for persisted Timestampable objects
      * to update creation and modification dates
      *
-     * @param LifecycleEventArgs $args
+     * @param EventArgs $args
      *
      * @return void
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(EventArgs $args)
     {
 
         $ea = $this->getEventAdapter($args);
@@ -245,7 +243,7 @@ abstract class AbstractTrackingListener extends MappedEventSubscriber
     protected function updateField($object, $eventAdapter, $meta, $field)
     {
 
-        /** @var \Doctrine\Orm\Mapping\ClassMetadata|\Doctrine\ODM\MongoDB\Mapping\ClassMetadata $meta */
+        /** @var ClassMetadata $meta */
         $property = $meta->getReflectionProperty($field);
         $oldValue = $property->getValue($object);
         $newValue = $this->getFieldValue($meta, $field, $eventAdapter);

@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Timestampable\Traits;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
@@ -13,7 +12,9 @@ use Sasedev\Doctrine\Behavior\Mapping\Annotation as Sasedev;
  */
 trait TimestampableDocument
 {
+
     /**
+     *
      * @var \DateTime
      * @Sasedev\Timestampable(on="create")
      * @ODM\Field(type="date")
@@ -21,6 +22,7 @@ trait TimestampableDocument
     protected $createdAt;
 
     /**
+     *
      * @var \DateTime
      * @Sasedev\Timestampable(on="update")
      * @ODM\Field(type="date")
@@ -30,14 +32,16 @@ trait TimestampableDocument
     /**
      * Sets createdAt.
      *
-     * @param  \DateTime $createdAt
+     * @param \DateTime $createdAt
      * @return $this
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
+
         $this->createdAt = $createdAt;
 
         return $this;
+
     }
 
     /**
@@ -47,20 +51,24 @@ trait TimestampableDocument
      */
     public function getCreatedAt()
     {
+
         return $this->createdAt;
+
     }
 
     /**
      * Sets updatedAt.
      *
-     * @param  \DateTime $updatedAt
+     * @param \DateTime $updatedAt
      * @return $this
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {
+
         $this->updatedAt = $updatedAt;
 
         return $this;
+
     }
 
     /**
@@ -70,6 +78,9 @@ trait TimestampableDocument
      */
     public function getUpdatedAt()
     {
+
         return $this->updatedAt;
+
     }
+
 }

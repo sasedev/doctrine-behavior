@@ -1,6 +1,7 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Mapping\Event\Adapter;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
 use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
@@ -19,13 +20,13 @@ class ORM implements AdapterInterface
 
     /**
      *
-     * @var \Doctrine\Common\EventArgs
+     * @var EventArgs
      */
     private $args;
 
     /**
      *
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -80,7 +81,8 @@ class ORM implements AdapterInterface
     public function __call($method, $args)
     {
 
-        if (is_null($this->args)) {
+        if (is_null($this->args))
+        {
             throw new RuntimeException("Event args must be set before calling its methods");
         }
         $method = str_replace('Object', $this->getDomainObjectName(), $method);
@@ -95,7 +97,7 @@ class ORM implements AdapterInterface
     /**
      * Set the entity manager
      *
-     * @param \Doctrine\ORM\EntityManagerInterface $em
+     * @param EntityManagerInterface $em
      */
     public function setEntityManager(EntityManagerInterface $em)
     {
@@ -111,7 +113,8 @@ class ORM implements AdapterInterface
     public function getObjectManager()
     {
 
-        if (! is_null($this->em)) {
+        if (! is_null($this->em))
+        {
             return $this->em;
         }
 
@@ -222,9 +225,9 @@ class ORM implements AdapterInterface
      * Creates a ORM specific LifecycleEventArgs.
      *
      * @param object $document
-     * @param \Doctrine\ODM\MongoDB\DocumentManager $documentManager
+     * @param DocumentManager $documentManager
      *
-     * @return \Doctrine\ODM\MongoDB\Event\LifecycleEventArgs
+     * @return LifecycleEventArgs
      */
     public function createLifecycleEventArgsInstance($document, $documentManager)
     {

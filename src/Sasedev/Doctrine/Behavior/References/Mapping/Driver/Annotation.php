@@ -67,14 +67,18 @@ class Annotation implements AnnotationDriverInterface
     {
 
         $class = $meta->getReflectionClass();
-        foreach ($this->annotations as $key => $annotation) {
+        foreach ($this->annotations as $key => $annotation)
+        {
             $config[$key] = [];
-            foreach ($class->getProperties() as $property) {
-                if ($meta->isMappedSuperclass && ! $property->isPrivate() || $meta->isInheritedField($property->name) || isset($meta->associationMappings[$property->name]['inherited'])) {
+            foreach ($class->getProperties() as $property)
+            {
+                if ($meta->isMappedSuperclass && ! $property->isPrivate() || $meta->isInheritedField($property->name) || isset($meta->associationMappings[$property->name]['inherited']))
+                {
                     continue;
                 }
 
-                if ($reference = $this->reader->getPropertyAnnotation($property, $annotation)) {
+                if ($reference = $this->reader->getPropertyAnnotation($property, $annotation))
+                {
                     $config[$key][$property->getName()] = [
                         'field' => $property->getName(),
                         'type' => $reference->type,

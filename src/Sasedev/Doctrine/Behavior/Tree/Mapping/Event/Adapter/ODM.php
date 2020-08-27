@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Tree\Mapping\Event\Adapter;
 
 use Sasedev\Doctrine\Behavior\Mapping\Event\Adapter\ODM as BaseAdapterODM;
@@ -14,5 +13,6 @@ use Sasedev\Doctrine\Behavior\Tree\Mapping\Event\TreeAdapter;
  */
 final class ODM extends BaseAdapterODM implements TreeAdapter
 {
+
     // Nothing specific yet
 }

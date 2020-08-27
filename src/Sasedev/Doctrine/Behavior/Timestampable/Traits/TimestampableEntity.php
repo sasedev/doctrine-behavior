@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Timestampable\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +12,9 @@ use Sasedev\Doctrine\Behavior\Mapping\Annotation as Sasedev;
  */
 trait TimestampableEntity
 {
+
     /**
+     *
      * @var \DateTime
      * @Sasedev\Timestampable(on="create")
      * @ORM\Column(type="datetime")
@@ -21,6 +22,7 @@ trait TimestampableEntity
     protected $createdAt;
 
     /**
+     *
      * @var \DateTime
      * @Sasedev\Timestampable(on="update")
      * @ORM\Column(type="datetime")
@@ -30,14 +32,16 @@ trait TimestampableEntity
     /**
      * Sets createdAt.
      *
-     * @param  \DateTime $createdAt
+     * @param \DateTime $createdAt
      * @return $this
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
+
         $this->createdAt = $createdAt;
 
         return $this;
+
     }
 
     /**
@@ -47,20 +51,24 @@ trait TimestampableEntity
      */
     public function getCreatedAt()
     {
+
         return $this->createdAt;
+
     }
 
     /**
      * Sets updatedAt.
      *
-     * @param  \DateTime $updatedAt
+     * @param \DateTime $updatedAt
      * @return $this
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {
+
         $this->updatedAt = $updatedAt;
 
         return $this;
+
     }
 
     /**
@@ -70,6 +78,9 @@ trait TimestampableEntity
      */
     public function getUpdatedAt()
     {
+
         return $this->updatedAt;
+
     }
+
 }

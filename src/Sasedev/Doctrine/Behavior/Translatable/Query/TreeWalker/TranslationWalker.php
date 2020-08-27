@@ -1,18 +1,23 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Translatable\Query\TreeWalker;
 
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Sasedev\Doctrine\Behavior\Translatable\Mapping\Event\Adapter\ORM as TranslatableEventAdapter;
-use Sasedev\Doctrine\Behavior\Translatable\TranslatableListener;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\AST\SelectStatement;
 use Doctrine\ORM\Query\Exec\SingleSelectExecutor;
+use Doctrine\ORM\Query\AST\FromClause;
 use Doctrine\ORM\Query\AST\RangeVariableDeclaration;
 use Doctrine\ORM\Query\AST\Join;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
+use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
+use Sasedev\Doctrine\Behavior\Translatable\Mapping\Event\Adapter\ORM as TranslatableEventAdapter;
+use Sasedev\Doctrine\Behavior\Translatable\TranslatableListener;
 
 /**
  * The translation sql output walker makes it possible
@@ -61,14 +66,14 @@ class TranslationWalker extends SqlWalker
     /**
      * DBAL database platform
      *
-     * @var \Doctrine\DBAL\Platforms\AbstractPlatform
+     * @var AbstractPlatform
      */
     private $platform;
 
     /**
      * DBAL database connection
      *
-     * @var \Doctrine\DBAL\Connection
+     * @var Connection
      */
     private $conn;
 
@@ -112,7 +117,7 @@ class TranslationWalker extends SqlWalker
 
         if (! $AST instanceof SelectStatement)
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException('Translation walker should be used only on select statement');
+            throw new UnexpectedValueException('Translation walker should be used only on select statement');
         }
         $this->prepareTranslatedComponents();
 
@@ -151,8 +156,7 @@ class TranslationWalker extends SqlWalker
                 ->setHydrationMode(self::HYDRATE_SIMPLE_OBJECT_TRANSLATION);
             $this->getEntityManager()
                 ->getConfiguration()
-                ->addCustomHydrationMode(self::HYDRATE_SIMPLE_OBJECT_TRANSLATION,
-                'Sasedev\\Doctrine\\Behavior\\Translatable\\Hydrator\\ORM\\SimpleObjectHydrator');
+                ->addCustomHydrationMode(self::HYDRATE_SIMPLE_OBJECT_TRANSLATION, 'Sasedev\\Doctrine\\Behavior\\Translatable\\Hydrator\\ORM\\SimpleObjectHydrator');
             $this->getQuery()
                 ->setHint(Query::HINT_REFRESH, true);
         }
@@ -285,7 +289,7 @@ class TranslationWalker extends SqlWalker
      * Walks from clause, and creates translation joins
      * for the translated components
      *
-     * @param \Doctrine\ORM\Query\AST\FromClause $from
+     * @param FromClause $from
      * @return string
      */
     private function joinTranslations($from)
@@ -387,8 +391,7 @@ class TranslationWalker extends SqlWalker
                 }
                 else
                 {
-                    $sql .= ' AND ' . $tblAlias . '.' . $quoteStrategy->getColumnName('objectClass', $transMeta, $this->platform) . ' = ' .
-                        $this->conn->quote($config['useObjectClass']);
+                    $sql .= ' AND ' . $tblAlias . '.' . $quoteStrategy->getColumnName('objectClass', $transMeta, $this->platform) . ' = ' . $this->conn->quote($config['useObjectClass']);
 
                     $mappingFK = $transMeta->getFieldMapping('foreignKey');
                     $mappingPK = $meta->getFieldMapping($identifier);
@@ -416,8 +419,7 @@ class TranslationWalker extends SqlWalker
                 }
 
                 // Fallback to original if was asked for
-                if (($this->needsFallback() && (! isset($config['fallback'][$field]) || $config['fallback'][$field])) ||
-                    (! $this->needsFallback() && isset($config['fallback'][$field]) && $config['fallback'][$field]))
+                if (($this->needsFallback() && (! isset($config['fallback'][$field]) || $config['fallback'][$field])) || (! $this->needsFallback() && isset($config['fallback'][$field]) && $config['fallback'][$field]))
                 {
                     $substituteField = 'COALESCE(' . $substituteField . ', ' . $originalField . ')';
                 }
@@ -477,7 +479,7 @@ class TranslationWalker extends SqlWalker
     /**
      * Get the currently used TranslatableListener
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\RuntimeException - if listener is not found
+     * @throws RuntimeException - if listener is not found
      *
      * @return TranslatableListener
      */
@@ -499,7 +501,7 @@ class TranslationWalker extends SqlWalker
             }
         }
 
-        throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException('The translation listener could not be found');
+        throw new RuntimeException('The translation listener could not be found');
 
     }
 

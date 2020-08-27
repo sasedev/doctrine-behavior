@@ -42,13 +42,17 @@ class Xml extends BaseXml
          */
         $xml = $this->_getMapping($meta->name);
 
-        if (isset($xml->field)) {
-            foreach ($xml->field as $mappingDoctrine) {
+        if (isset($xml->field))
+        {
+            foreach ($xml->field as $mappingDoctrine)
+            {
                 $mapping = $mappingDoctrine->children(self::SASEDEV_NAMESPACE_URI);
 
                 $field = $this->_getAttribute($mappingDoctrine, 'name');
-                if (isset($mapping->{'sortable-position'})) {
-                    if (! $this->isValidField($meta, $field)) {
+                if (isset($mapping->{'sortable-position'}))
+                {
+                    if (! $this->isValidField($meta, $field))
+                    {
                         throw new InvalidMappingException("Sortable position field - [{$field}] type is not valid and must be 'integer' in class - {$meta->name}");
                     }
                     $config['position'] = $field;
@@ -58,17 +62,21 @@ class Xml extends BaseXml
         }
 
         // Search for sortable-groups in association mappings
-        if (isset($xml->{'many-to-one'})) {
+        if (isset($xml->{'many-to-one'}))
+        {
             $this->readSortableGroups($xml->{'many-to-one'}, $config);
         }
 
         // Search for sortable-groups in association mappings
-        if (isset($xml->{'many-to-many'})) {
+        if (isset($xml->{'many-to-many'}))
+        {
             $this->readSortableGroups($xml->{'many-to-many'}, $config);
         }
 
-        if (! $meta->isMappedSuperclass && $config) {
-            if (! isset($config['position'])) {
+        if (! $meta->isMappedSuperclass && $config)
+        {
+            if (! isset($config['position']))
+            {
                 throw new InvalidMappingException("Missing property: 'position' in class - {$meta->name}");
             }
         }
@@ -84,12 +92,15 @@ class Xml extends BaseXml
     private function readSortableGroups($mapping, array &$config, $fieldAttr = 'field')
     {
 
-        foreach ($mapping as $mappingDoctrine) {
+        foreach ($mapping as $mappingDoctrine)
+        {
             $map = $mappingDoctrine->children(self::SASEDEV_NAMESPACE_URI);
 
             $field = $this->_getAttribute($mappingDoctrine, $fieldAttr);
-            if (isset($map->{'sortable-group'})) {
-                if (! isset($config['groups'])) {
+            if (isset($map->{'sortable-group'}))
+            {
+                if (! isset($config['groups']))
+                {
                     $config['groups'] = [];
                 }
                 $config['groups'][] = $field;

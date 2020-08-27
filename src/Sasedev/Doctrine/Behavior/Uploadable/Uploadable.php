@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Uploadable;
 
 /**
@@ -13,15 +12,17 @@ namespace Sasedev\Doctrine\Behavior\Uploadable;
  */
 interface Uploadable
 {
+
     // this interface is not necessary to implement
 
-    /**
-     * @sasedev:Uploadable
-     * to mark the class as Uploadable use class annotation @sasedev:Uploadable
-     * this object will be able Uploadable
-     * example:
-     *
-     * @sasedev:Uploadable
-     * class MyEntity
-     */
+/**
+ *
+ * @sasedev:Uploadable
+ * to mark the class as Uploadable use class annotation @sasedev:Uploadable
+ * this object will be able Uploadable
+ * example:
+ *
+ * @sasedev:Uploadable
+ * class MyEntity
+ */
 }

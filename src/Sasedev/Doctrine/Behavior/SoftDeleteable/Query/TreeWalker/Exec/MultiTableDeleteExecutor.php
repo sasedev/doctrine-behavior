@@ -31,14 +31,18 @@ class MultiTableDeleteExecutor extends BaseMultiTableDeleteExecutor
 
         $sqlStatements = $reflProp->getValue($this);
 
-        foreach ($sqlStatements as $index => $stmt) {
+        foreach ($sqlStatements as $index => $stmt)
+        {
             $matches = [];
             preg_match('/DELETE FROM (\w+) .+/', $stmt, $matches);
 
-            if (isset($matches[1]) && $meta->getQuotedTableName($platform) === $matches[1]) {
+            if (isset($matches[1]) && $meta->getQuotedTableName($platform) === $matches[1])
+            {
                 $sqlStatements[$index] = str_replace('DELETE FROM', 'UPDATE', $stmt);
                 $sqlStatements[$index] = str_replace('WHERE', 'SET ' . $config['fieldName'] . ' = ' . $platform->getCurrentTimestampSQL() . ' WHERE', $sqlStatements[$index]);
-            } else {
+            }
+            else
+            {
                 // We have to avoid the removal of registers of child entities of a SoftDeleteable entity
                 unset($sqlStatements[$index]);
             }

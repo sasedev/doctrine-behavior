@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Uploadable\Event;
 
 use Doctrine\Common\EventArgs;
@@ -14,18 +13,19 @@ use Sasedev\Doctrine\Behavior\Uploadable\UploadableListener;
  * @author Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
 abstract class UploadableBaseEventArgs extends EventArgs
 {
+
     /**
      * The instance of the Uploadable listener that fired this event
      *
-     * @var \Sasedev\Doctrine\Behavior\Uploadable\UploadableListener
+     * @var UploadableListener
      */
     private $uploadableListener;
 
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     *
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -44,52 +44,61 @@ abstract class UploadableBaseEventArgs extends EventArgs
     private $extensionConfiguration;
 
     /**
-     * @var \Sasedev\Doctrine\Behavior\Uploadable\FileInfo\FileInfoInterface
+     *
+     * @var FileInfoInterface
      */
     private $fileInfo;
 
     /**
+     *
      * @var string $action - Is the file being created, updated or removed?
-     *                       This value can be: CREATE, UPDATE or DELETE.
+     *      This value can be: CREATE, UPDATE or DELETE.
      */
     private $action;
 
     /**
-     * @param UploadableListener          $listener
-     * @param \Doctrine\ORM\EntityManagerInterface $em
-     * @param array                       $config
-     * @param FileInfoInterface           $fileInfo
-     * @param object                      $entity
-     * @param string                      $action
+     *
+     * @param UploadableListener $listener
+     * @param EntityManagerInterface $em
+     * @param array $config
+     * @param FileInfoInterface $fileInfo
+     * @param object $entity
+     * @param string $action
      */
     public function __construct(UploadableListener $listener, EntityManagerInterface $em, array $config, FileInfoInterface $fileInfo, $entity, $action)
     {
+
         $this->uploadableListener = $listener;
         $this->em = $em;
         $this->config = $config;
         $this->fileInfo = $fileInfo;
         $this->entity = $entity;
         $this->action = $action;
+
     }
 
     /**
      * Retrieve the associated listener
      *
-     * @return \Sasedev\Doctrine\Behavior\Uploadable\UploadableListener
+     * @return UploadableListener
      */
     public function getListener()
     {
+
         return $this->uploadableListener;
+
     }
 
     /**
      * Retrieve associated EntityManager
      *
-     * @return \Doctrine\ORM\EntityManagerInterface
+     * @return EntityManagerInterface
      */
     public function getEntityManager()
     {
+
         return $this->em;
+
     }
 
     /**
@@ -99,7 +108,9 @@ abstract class UploadableBaseEventArgs extends EventArgs
      */
     public function getEntity()
     {
+
         return $this->entity;
+
     }
 
     /**
@@ -109,17 +120,21 @@ abstract class UploadableBaseEventArgs extends EventArgs
      */
     public function getExtensionConfiguration()
     {
+
         return $this->extensionConfiguration;
+
     }
 
     /**
      * Retrieve the FileInfo associated with this entity.
      *
-     * @return \Sasedev\Doctrine\Behavior\Uploadable\FileInfo\FileInfoInterface
+     * @return FileInfoInterface
      */
     public function getFileInfo()
     {
+
         return $this->fileInfo;
+
     }
 
     /**
@@ -129,6 +144,9 @@ abstract class UploadableBaseEventArgs extends EventArgs
      */
     public function getAction()
     {
+
         return $this->action;
+
     }
+
 }

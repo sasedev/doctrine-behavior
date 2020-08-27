@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Mapping\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
@@ -15,10 +14,14 @@ use Doctrine\Common\Annotations\Annotation;
  */
 final class Blameable extends Annotation
 {
+
     /** @var string */
     public $on = 'update';
+
     /** @var string|array */
     public $field;
+
     /** @var mixed */
     public $value;
+
 }

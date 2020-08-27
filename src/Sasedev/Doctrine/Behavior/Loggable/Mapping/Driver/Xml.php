@@ -86,8 +86,7 @@ class Xml extends BaseXml
             }
             if (isset($config['versioned']) && ! isset($config['loggable']))
             {
-                throw new InvalidMappingException(
-                    "Class must be annotated with Loggable annotation in order to track versioned fields in class - {$meta->name}");
+                throw new InvalidMappingException("Class must be annotated with Loggable annotation in order to track versioned fields in class - {$meta->name}");
             }
         }
 

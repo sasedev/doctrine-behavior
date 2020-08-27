@@ -1,12 +1,14 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Loggable\Entity\Repository;
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
+use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
 use Sasedev\Doctrine\Behavior\Loggable\Entity\LogEntry;
-use Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper;
-use Doctrine\ORM\EntityRepository;
 use Sasedev\Doctrine\Behavior\Loggable\LoggableListener;
+use Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper;
 
 /**
  * The LogEntryRepository has some useful functions
@@ -76,7 +78,7 @@ class LogEntryRepository extends EntityRepository
      * @param object $entity
      * @param integer $version
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return void
      */
@@ -122,14 +124,13 @@ class LogEntryRepository extends EntityRepository
             }
             /*
              * if (count($fields)) {
-             * throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException('Could not fully revert the
-             * entity to version: '.$version);
+             * throw new UnexpectedValueException('Could not fully revert the entity to version: '.$version);
              * }
              */
         }
         else
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException('Could not find any log entries under version: ' . $version);
+            throw new UnexpectedValueException('Could not find any log entries under version: ' . $version);
         }
 
     }
@@ -156,7 +157,7 @@ class LogEntryRepository extends EntityRepository
     /**
      * Get the currently used LoggableListener
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\RuntimeException - if listener is not found
+     * @throws RuntimeException - if listener is not found
      *
      * @return LoggableListener
      */
@@ -186,7 +187,7 @@ class LogEntryRepository extends EntityRepository
 
             if (is_null($this->listener))
             {
-                throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException('The loggable listener could not be found');
+                throw new RuntimeException('The loggable listener could not be found');
             }
         }
 

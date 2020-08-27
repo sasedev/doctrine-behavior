@@ -1,13 +1,16 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Tree\Entity\Repository;
 
-use Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
+use ProxyManager\Proxy\GhostObjectInterface as Proxy;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
+use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
 use Sasedev\Doctrine\Behavior\Tree\Strategy;
 use Sasedev\Doctrine\Behavior\Tree\Strategy\ORM\Nested;
-use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
-use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
-use Doctrine\ORM\Proxy\Proxy;
+use Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper;
 
 /**
  * The NestedTreeRepository has some useful functions
@@ -94,7 +97,7 @@ class NestedTreeRepository extends AbstractTreeRepository
      * Inherited virtual methods:
      * - find*
      *
-     * @see \Doctrine\ORM\EntityRepository
+     * @see EntityRepository
      *
      * @throws InvalidArgumentException - If arguments are invalid
      * @throws \BadMethodCallException - If the method called is an invalid find* or persistAs* method
@@ -109,7 +112,7 @@ class NestedTreeRepository extends AbstractTreeRepository
         {
             if (! isset($args[0]))
             {
-                throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException('Node to persist must be available as first argument');
+                throw new InvalidArgumentException('Node to persist must be available as first argument');
             }
             $node = $args[0];
             $wrapped = new EntityWrapper($node, $this->_em);
@@ -120,8 +123,7 @@ class NestedTreeRepository extends AbstractTreeRepository
             {
                 if (! isset($args[1]))
                 {
-                    throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException(
-                        'If "Of" is specified you must provide parent or sibling as the second argument');
+                    throw new InvalidArgumentException('If "Of" is specified you must provide parent or sibling as the second argument');
                 }
                 $parentOrSibling = $args[1];
                 if (strstr($method, 'Sibling'))
@@ -159,7 +161,7 @@ class NestedTreeRepository extends AbstractTreeRepository
      *
      * @throws InvalidArgumentException - if input is not valid
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     public function getPathQueryBuilder($node)
     {
@@ -202,7 +204,7 @@ class NestedTreeRepository extends AbstractTreeRepository
      *
      * @param object $node
      *
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function getPathQuery($node)
     {
@@ -236,7 +238,7 @@ class NestedTreeRepository extends AbstractTreeRepository
      * @param boolean $includeNode
      * @throws InvalidArgumentException
      * @throws \InvalidArgumentException
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     public function childrenQueryBuilder($node = null, $direct = false, $sortByField = null, $direction = 'ASC', $includeNode = false)
     {
@@ -340,7 +342,7 @@ class NestedTreeRepository extends AbstractTreeRepository
      * @param void $sortByField
      * @param string $direction
      * @param boolean $includeNode
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function childrenQuery($node = null, $direct = false, $sortByField = null, $direction = 'ASC', $includeNode = false)
     {
@@ -413,7 +415,7 @@ class NestedTreeRepository extends AbstractTreeRepository
      *
      * @throws InvalidArgumentException - if input is not valid
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     public function getLeafsQueryBuilder($root = null, $sortByField = null, $direction = 'ASC')
     {
@@ -490,7 +492,7 @@ class NestedTreeRepository extends AbstractTreeRepository
      * @param string $direction
      *            - sort direction : "ASC" or "DESC"
      *
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function getLeafsQuery($root = null, $sortByField = null, $direction = 'ASC')
     {
@@ -527,9 +529,9 @@ class NestedTreeRepository extends AbstractTreeRepository
      * @param bool $includeSelf
      *            - include the node itself
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException - if input is invalid
+     * @throws InvalidArgumentException - if input is invalid
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     public function getNextSiblingsQueryBuilder($node, $includeSelf = false)
     {
@@ -591,7 +593,7 @@ class NestedTreeRepository extends AbstractTreeRepository
      * @param bool $includeSelf
      *            - include the node itself
      *
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function getNextSiblingsQuery($node, $includeSelf = false)
     {
@@ -625,9 +627,9 @@ class NestedTreeRepository extends AbstractTreeRepository
      * @param bool $includeSelf
      *            - include the node itself
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException - if input is invalid
+     * @throws InvalidArgumentException - if input is invalid
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     public function getPrevSiblingsQueryBuilder($node, $includeSelf = false)
     {
@@ -689,9 +691,9 @@ class NestedTreeRepository extends AbstractTreeRepository
      * @param bool $includeSelf
      *            - include the node itself
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException - if input is invalid
+     * @throws InvalidArgumentException - if input is invalid
      *
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function getPrevSiblingsQuery($node, $includeSelf = false)
     {
@@ -937,7 +939,7 @@ class NestedTreeRepository extends AbstractTreeRepository
                 $this->_em->close();
                 $this->_em->getConnection()
                     ->rollback();
-                throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException('Transaction failed', null, $e);
+                throw new RuntimeException('Transaction failed', null, $e);
             }
         }
         else

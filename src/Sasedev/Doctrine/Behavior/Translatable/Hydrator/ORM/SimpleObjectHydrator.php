@@ -1,6 +1,7 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Translatable\Hydrator\ORM;
 
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
 use Sasedev\Doctrine\Behavior\Translatable\TranslatableListener;
 use Doctrine\ORM\Internal\Hydration\SimpleObjectHydrator as BaseSimpleObjectHydrator;
 
@@ -56,7 +57,7 @@ class SimpleObjectHydrator extends BaseSimpleObjectHydrator
     /**
      * Get the currently used TranslatableListener
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\RuntimeException - if listener is not found
+     * @throws RuntimeException - if listener is not found
      *
      * @return TranslatableListener
      */
@@ -85,7 +86,7 @@ class SimpleObjectHydrator extends BaseSimpleObjectHydrator
 
         if (is_null($translatableListener))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException('The translation listener could not be found');
+            throw new RuntimeException('The translation listener could not be found');
         }
 
         return $translatableListener;

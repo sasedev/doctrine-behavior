@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\SoftDeleteable\Traits;
 
 /**
@@ -10,7 +9,9 @@ namespace Sasedev\Doctrine\Behavior\SoftDeleteable\Traits;
  */
 trait SoftDeleteable
 {
+
     /**
+     *
      * @var \DateTime
      */
     protected $deletedAt;
@@ -24,9 +25,11 @@ trait SoftDeleteable
      */
     public function setDeletedAt(\DateTime $deletedAt = null)
     {
+
         $this->deletedAt = $deletedAt;
 
         return $this;
+
     }
 
     /**
@@ -36,7 +39,9 @@ trait SoftDeleteable
      */
     public function getDeletedAt()
     {
+
         return $this->deletedAt;
+
     }
 
     /**
@@ -46,6 +51,9 @@ trait SoftDeleteable
      */
     public function isDeleted()
     {
+
         return null !== $this->deletedAt;
+
     }
+
 }

@@ -12,7 +12,10 @@ final class Events
 {
 
     private function __construct()
-    {}
+    {
+
+
+    }
 
     /**
      * The uploadablePreFileProcess event occurs before a file is processed inside
@@ -33,4 +36,5 @@ final class Events
      * @var string
      */
     const UPLOADABLE_POST_FILE_PROCESS = 'uploadablePostFileProcess';
+
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Mapping\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
@@ -15,6 +14,8 @@ use Doctrine\Common\Annotations\Annotation;
  */
 final class TreeRoot extends Annotation
 {
+
     /** @var string $identifierMethod */
     public $identifierMethod;
+
 }

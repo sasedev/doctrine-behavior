@@ -1,6 +1,8 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Tool;
 
+use Sasedev\Doctrine\Behavior\Tool\WrapperInterface;
+
 /**
  * Object wrapper interface
  *
@@ -33,7 +35,7 @@ interface WrapperInterface
      * @param string $property
      * @param mixed $value
      *
-     * @return \Sasedev\Doctrine\Behavior\Tool\WrapperInterface
+     * @return WrapperInterface
      */
     public function setPropertyValue($property, $value);
 

@@ -3,7 +3,6 @@ namespace Sasedev\Doctrine\Behavior\Sluggable\Mapping\Event\Adapter;
 
 use Sasedev\Doctrine\Behavior\Mapping\Event\Adapter\ODM as BaseAdapterODM;
 use Doctrine\ODM\MongoDB\Iterator\Iterator;
-
 ;
 use Sasedev\Doctrine\Behavior\Sluggable\Mapping\Event\SluggableAdapter;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\AbstractWrapper;
@@ -28,19 +27,30 @@ final class ODM extends BaseAdapterODM implements SluggableAdapter
         $dm = $this->getObjectManager();
         $wrapped = AbstractWrapper::wrap($object, $dm);
         $qb = $dm->createQueryBuilder($config['useObjectClass']);
-        if (($identifier = $wrapped->getIdentifier()) && ! $meta->isIdentifier($config['slug'])) {
-            $qb->field($meta->identifier)->notEqual($identifier);
+        if (($identifier = $wrapped->getIdentifier()) && ! $meta->isIdentifier($config['slug']))
+        {
+            $qb->field($meta->identifier)
+                ->notEqual($identifier);
         }
-        $qb->field($config['slug'])->equals(new \MongoDB\BSON\Regex('/^' . preg_quote($slug, '/') . '/'));
+        $qb->field($config['slug'])
+            ->equals(new \MongoDB\BSON\Regex('/^' . preg_quote($slug, '/') . '/'));
 
         // use the unique_base to restrict the uniqueness check
-        if ($config['unique'] && isset($config['unique_base'])) {
-            if (is_object($ubase = $wrapped->getPropertyValue($config['unique_base']))) {
-                $qb->field($config['unique_base'] . '.$id')->equals(new \MongoDB\BSON\ObjectId($ubase->getId()));
-            } elseif ($ubase) {
+        if ($config['unique'] && isset($config['unique_base']))
+        {
+            if (is_object($ubase = $wrapped->getPropertyValue($config['unique_base'])))
+            {
+                $qb->field($config['unique_base'] . '.$id')
+                    ->equals(new \MongoDB\BSON\ObjectId($ubase->getId()));
+            }
+            elseif ($ubase)
+            {
                 $qb->where('/^' . preg_quote($ubase, '/') . '/.test(this.' . $config['unique_base'] . ')');
-            } else {
-                $qb->field($config['unique_base'])->equals(null);
+            }
+            else
+            {
+                $qb->field($config['unique_base'])
+                    ->equals(null);
             }
         }
 
@@ -48,7 +58,8 @@ final class ODM extends BaseAdapterODM implements SluggableAdapter
         $q->setHydrate(false);
 
         $result = $q->execute();
-        if ($result instanceof Iterator) {
+        if ($result instanceof Iterator)
+        {
             $result = $result->toArray();
         }
 
@@ -75,9 +86,11 @@ final class ODM extends BaseAdapterODM implements SluggableAdapter
             ->getQuery();
         $q->setHydrate(false);
         $result = $q->execute();
-        if ($result instanceof Iterator) {
+        if ($result instanceof Iterator)
+        {
             $result = $result->toArray();
-            foreach ($result as $targetObject) {
+            foreach ($result as $targetObject)
+            {
                 $slug = preg_replace("@^{$target}@smi", $replacement . $config['pathSeparator'], $targetObject[$config['slug']]);
                 $dm->createQueryBuilder()
                     ->update($config['useObjectClass'])
@@ -110,9 +123,11 @@ final class ODM extends BaseAdapterODM implements SluggableAdapter
             ->getQuery();
         $q->setHydrate(false);
         $result = $q->execute();
-        if ($result instanceof Iterator) {
+        if ($result instanceof Iterator)
+        {
             $result = $result->toArray();
-            foreach ($result as $targetObject) {
+            foreach ($result as $targetObject)
+            {
                 $slug = preg_replace("@^{$replacement}@smi", $target, $targetObject[$config['slug']]);
                 $dm->createQueryBuilder()
                     ->update($config['useObjectClass'])

@@ -3,11 +3,11 @@ namespace Sasedev\Doctrine\Behavior\Tree\Strategy;
 
 use Doctrine\ODM\MongoDB\UnitOfWork as MongoDBUnitOfWork;
 use Doctrine\Persistence\ObjectManager;
-use Sasedev\Doctrine\Behavior\Tree\Strategy;
-use Sasedev\Doctrine\Behavior\Tree\TreeListener;
-use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
 use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
 use Sasedev\Doctrine\Behavior\Exception\TreeLockingException;
+use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
+use Sasedev\Doctrine\Behavior\Tree\Strategy;
+use Sasedev\Doctrine\Behavior\Tree\TreeListener;
 
 /**
  * This strategy makes tree using materialized path strategy

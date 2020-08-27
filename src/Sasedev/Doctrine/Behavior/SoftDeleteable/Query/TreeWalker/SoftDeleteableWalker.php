@@ -5,6 +5,8 @@ use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\AST\DeleteStatement;
 use Doctrine\ORM\Query\AST\DeleteClause;
 use Doctrine\ORM\Query\Exec\SingleTableDeleteUpdateExecutor;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
+use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
 use Sasedev\Doctrine\Behavior\SoftDeleteable\SoftDeleteableListener;
 use Sasedev\Doctrine\Behavior\SoftDeleteable\Query\TreeWalker\Exec\MultiTableDeleteExecutor;
 
@@ -63,10 +65,9 @@ class SoftDeleteableWalker extends SqlWalker
                 $primaryClass = $this->getEntityManager()
                     ->getClassMetadata($AST->deleteClause->abstractSchemaName);
 
-                return ($primaryClass->isInheritanceTypeJoined()) ? new MultiTableDeleteExecutor($AST, $this, $this->meta, $this->platform, $this->configuration) : new SingleTableDeleteUpdateExecutor(
-                    $AST, $this);
+                return ($primaryClass->isInheritanceTypeJoined()) ? new MultiTableDeleteExecutor($AST, $this, $this->meta, $this->platform, $this->configuration) : new SingleTableDeleteUpdateExecutor($AST, $this);
             default:
-                throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException('SoftDeleteable walker should be used only on delete statement');
+                throw new UnexpectedValueException('SoftDeleteable walker should be used only on delete statement');
         }
 
     }
@@ -97,7 +98,7 @@ class SoftDeleteableWalker extends SqlWalker
     /**
      * Get the currently used SoftDeleteableListener
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\RuntimeException - if listener is not found
+     * @throws RuntimeException - if listener is not found
      *
      * @return SoftDeleteableListener
      */
@@ -128,7 +129,7 @@ class SoftDeleteableWalker extends SqlWalker
 
             if (is_null($this->listener))
             {
-                throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException('The SoftDeleteable listener could not be found.');
+                throw new RuntimeException('The SoftDeleteable listener could not be found.');
             }
         }
 

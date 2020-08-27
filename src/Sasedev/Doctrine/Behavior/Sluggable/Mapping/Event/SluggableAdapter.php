@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Sluggable\Mapping\Event;
 
 use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
@@ -13,12 +12,13 @@ use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
  */
 interface SluggableAdapter extends AdapterInterface
 {
+
     /**
      * Loads the similar slugs
      *
      * @param object $object
      * @param object $meta
-     * @param array  $config
+     * @param array $config
      * @param string $slug
      *
      * @return array
@@ -30,7 +30,7 @@ interface SluggableAdapter extends AdapterInterface
      * matching $target pattern
      *
      * @param object $object
-     * @param array  $config
+     * @param array $config
      * @param string $target
      * @param string $replacement
      *
@@ -44,11 +44,12 @@ interface SluggableAdapter extends AdapterInterface
      * related
      *
      * @param object $object
-     * @param array  $config
+     * @param array $config
      * @param string $target
      * @param string $replacement
      *
      * @return integer
      */
     public function replaceInverseRelative($object, array $config, $target, $replacement);
+
 }

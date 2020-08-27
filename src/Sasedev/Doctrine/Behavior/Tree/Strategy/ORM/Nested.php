@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use ProxyManager\Proxy\GhostObjectInterface as Proxy;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
 use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\AbstractWrapper;
 use Sasedev\Doctrine\Behavior\Tree\Strategy;
@@ -113,7 +114,7 @@ class Nested implements Strategy
         ];
         if (! \in_array($position, $valid, false))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException("Position: {$position} is not valid in nested set tree");
+            throw new InvalidArgumentException("Position: {$position} is not valid in nested set tree");
         }
         $this->nodePositions[$oid] = $position;
 
@@ -168,7 +169,7 @@ class Nested implements Strategy
         $changeSet = $uow->getEntityChangeSet($node);
         if (isset($config['root']) && isset($changeSet[$config['root']]))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException("Root cannot be changed manually, change parent instead");
+            throw new UnexpectedValueException("Root cannot be changed manually, change parent instead");
         }
 
         $oid = spl_object_hash($node);
@@ -357,7 +358,7 @@ class Nested implements Strategy
      *            - destination node
      * @param string $position
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     public function updateNode(EntityManagerInterface $em, $node, $parent, $position = 'FirstChild')
     {

@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Translatable\Entity\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class AbstractTranslation
 {
+
     /**
+     *
      * @var integer $id
      *
      * @ORM\Column(type="integer")
@@ -21,6 +22,7 @@ abstract class AbstractTranslation
     protected $id;
 
     /**
+     *
      * @var string $locale
      *
      * @ORM\Column(type="string", length=8)
@@ -28,6 +30,7 @@ abstract class AbstractTranslation
     protected $locale;
 
     /**
+     *
      * @var string $objectClass
      *
      * @ORM\Column(name="object_class", type="string", length=255)
@@ -35,6 +38,7 @@ abstract class AbstractTranslation
     protected $objectClass;
 
     /**
+     *
      * @var string $field
      *
      * @ORM\Column(type="string", length=32)
@@ -42,6 +46,7 @@ abstract class AbstractTranslation
     protected $field;
 
     /**
+     *
      * @var string $foreignKey
      *
      * @ORM\Column(name="foreign_key", type="string", length=64)
@@ -49,6 +54,7 @@ abstract class AbstractTranslation
     protected $foreignKey;
 
     /**
+     *
      * @var string $content
      *
      * @ORM\Column(type="text", nullable=true)
@@ -62,7 +68,9 @@ abstract class AbstractTranslation
      */
     public function getId()
     {
+
         return $this->id;
+
     }
 
     /**
@@ -74,9 +82,11 @@ abstract class AbstractTranslation
      */
     public function setLocale($locale)
     {
+
         $this->locale = $locale;
 
         return $this;
+
     }
 
     /**
@@ -86,7 +96,9 @@ abstract class AbstractTranslation
      */
     public function getLocale()
     {
+
         return $this->locale;
+
     }
 
     /**
@@ -98,9 +110,11 @@ abstract class AbstractTranslation
      */
     public function setField($field)
     {
+
         $this->field = $field;
 
         return $this;
+
     }
 
     /**
@@ -110,7 +124,9 @@ abstract class AbstractTranslation
      */
     public function getField()
     {
+
         return $this->field;
+
     }
 
     /**
@@ -122,9 +138,11 @@ abstract class AbstractTranslation
      */
     public function setObjectClass($objectClass)
     {
+
         $this->objectClass = $objectClass;
 
         return $this;
+
     }
 
     /**
@@ -134,7 +152,9 @@ abstract class AbstractTranslation
      */
     public function getObjectClass()
     {
+
         return $this->objectClass;
+
     }
 
     /**
@@ -146,9 +166,11 @@ abstract class AbstractTranslation
      */
     public function setForeignKey($foreignKey)
     {
+
         $this->foreignKey = $foreignKey;
 
         return $this;
+
     }
 
     /**
@@ -158,7 +180,9 @@ abstract class AbstractTranslation
      */
     public function getForeignKey()
     {
+
         return $this->foreignKey;
+
     }
 
     /**
@@ -170,9 +194,11 @@ abstract class AbstractTranslation
      */
     public function setContent($content)
     {
+
         $this->content = $content;
 
         return $this;
+
     }
 
     /**
@@ -182,6 +208,9 @@ abstract class AbstractTranslation
      */
     public function getContent()
     {
+
         return $this->content;
+
     }
+
 }

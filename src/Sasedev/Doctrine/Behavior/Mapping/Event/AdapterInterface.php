@@ -3,6 +3,8 @@ namespace Sasedev\Doctrine\Behavior\Mapping\Event;
 
 use Doctrine\Common\EventArgs;
 use Doctrine\ORM\UnitOfWork;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\Mapping\ClassMetadata;
 
 /**
  * Doctrine event adapter interface is used
@@ -18,7 +20,7 @@ interface AdapterInterface
     /**
      * Set the eventargs
      *
-     * @param \Doctrine\Common\EventArgs $args
+     * @param EventArgs $args
      */
     public function setEventArgs(EventArgs $args);
 
@@ -50,16 +52,16 @@ interface AdapterInterface
     /**
      * Get the root object class, handles inheritance
      *
-     * @param \Doctrine\Persistence\Mapping\ClassMetadata $meta
+     * @param ClassMetadata $meta
      *
      * @return string
      */
-    public function getRootObjectClass($meta);
+    public function getRootObjectClass(ClassMetadata $meta);
 
     /**
      * Get used object manager
      *
-     * @return \Doctrine\Persistence\ObjectManager
+     * @return ObjectManager
      */
     public function getObjectManager();
 
@@ -86,7 +88,7 @@ interface AdapterInterface
     /**
      * Get the single identifier field name
      *
-     * @param \Doctrine\Persistence\Mapping\ClassMetadata $meta
+     * @param ClassMetadata $meta
      *
      * @return string
      */
@@ -96,12 +98,12 @@ interface AdapterInterface
      * Recompute the single object changeset from a UnitOfWork
      *
      * @param UnitOfWork $uow
-     * @param \Doctrine\Persistence\Mapping\ClassMetadata $meta
+     * @param ClassMetadata $meta
      * @param object $object
      *
      * @return void
      */
-    public function recomputeSingleObjectChangeSet($uow, $meta, $object);
+    public function recomputeSingleObjectChangeSet(UnitOfWork $uow, ClassMetadata $meta, $object);
 
     /**
      * Get the scheduled object updates from a UnitOfWork

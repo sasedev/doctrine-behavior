@@ -1,11 +1,12 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Uploadable;
 
+use Doctrine\Common\EventArgs;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\NotifyPropertyChanged;
 use Sasedev\Doctrine\Behavior\Mapping\MappedEventSubscriber;
-use Doctrine\Common\EventArgs;
 use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
 use Sasedev\Doctrine\Behavior\Exception\UploadablePartialException;
 use Sasedev\Doctrine\Behavior\Exception\UploadableCantWriteException;
 use Sasedev\Doctrine\Behavior\Exception\UploadableExtensionException;
@@ -50,7 +51,7 @@ class UploadableListener extends MappedEventSubscriber
     /**
      * Mime type guesser
      *
-     * @var \Sasedev\Doctrine\Behavior\Uploadable\MimeType\MimeTypeGuesserInterface
+     * @var MimeTypeGuesserInterface
      */
     private $mimeTypeGuesser;
 
@@ -107,7 +108,7 @@ class UploadableListener extends MappedEventSubscriber
      * doctrine thinks the entity has no changes, which produces that the "onFlush" event gets never called.
      * Here we mark the entity as dirty, so the "onFlush" event gets called, and the file is processed.
      *
-     * @param \Doctrine\Common\EventArgs $args
+     * @param EventArgs $args
      */
     public function preFlush(EventArgs $args)
     {
@@ -155,7 +156,7 @@ class UploadableListener extends MappedEventSubscriber
      * Handle file-uploading depending on the action
      * being done with objects
      *
-     * @param \Doctrine\Common\EventArgs $args
+     * @param EventArgs $args
      */
     public function onFlush(EventArgs $args)
     {
@@ -197,7 +198,7 @@ class UploadableListener extends MappedEventSubscriber
     /**
      * Handle removal of files
      *
-     * @param \Doctrine\Common\EventArgs $args
+     * @param EventArgs $args
      */
     public function postFlush(EventArgs $args)
     {
@@ -220,14 +221,14 @@ class UploadableListener extends MappedEventSubscriber
      * If it's a Uploadable object, verify if the file was uploaded.
      * If that's the case, process it.
      *
-     * @param \Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface $ea
+     * @param AdapterInterface $ea
      * @param object $object
      * @param string $action
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableNoPathDefinedException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableCouldntGuessMimeTypeException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableMaxSizeException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableInvalidMimeTypeException
+     * @throws UploadableNoPathDefinedException
+     * @throws UploadableCouldntGuessMimeTypeException
+     * @throws UploadableMaxSizeException
+     * @throws UploadableInvalidMimeTypeException
      */
     public function processFile(AdapterInterface $ea, $object, $action)
     {
@@ -532,15 +533,15 @@ class UploadableListener extends MappedEventSubscriber
      *
      * @return array
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableUploadException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableNoFileException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableExtensionException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableIniSizeException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableFormSizeException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableFileAlreadyExistsException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadablePartialException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableNoTmpDirException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UploadableCantWriteException
+     * @throws UploadableUploadException
+     * @throws UploadableNoFileException
+     * @throws UploadableExtensionException
+     * @throws UploadableIniSizeException
+     * @throws UploadableFormSizeException
+     * @throws UploadableFileAlreadyExistsException
+     * @throws UploadablePartialException
+     * @throws UploadableNoTmpDirException
+     * @throws UploadableCantWriteException
      */
     public function moveFile(FileInfoInterface $fileInfo, $path, $filenameGeneratorClass = false, $overwrite = false, $appendNumber = false, $object)
     {
@@ -739,7 +740,7 @@ class UploadableListener extends MappedEventSubscriber
         {
             $msg = sprintf('Default FileInfo class must be a valid class, and it must implement "%s".', $fileInfoInterface);
 
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException($msg);
+            throw new InvalidArgumentException($msg);
         }
 
         $this->defaultFileInfoClass = $defaultFileInfoClass;
@@ -819,7 +820,7 @@ class UploadableListener extends MappedEventSubscriber
 
     /**
      *
-     * @param \Sasedev\Doctrine\Behavior\Uploadable\MimeType\MimeTypeGuesserInterface $mimeTypeGuesser
+     * @param MimeTypeGuesserInterface $mimeTypeGuesser
      */
     public function setMimeTypeGuesser(MimeTypeGuesserInterface $mimeTypeGuesser)
     {
@@ -830,7 +831,7 @@ class UploadableListener extends MappedEventSubscriber
 
     /**
      *
-     * @return \Sasedev\Doctrine\Behavior\Uploadable\MimeType\MimeTypeGuesserInterface
+     * @return MimeTypeGuesserInterface
      */
     public function getMimeTypeGuesser()
     {

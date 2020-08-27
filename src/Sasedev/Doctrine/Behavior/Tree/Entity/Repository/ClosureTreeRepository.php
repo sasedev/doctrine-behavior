@@ -1,8 +1,10 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Tree\Entity\Repository;
 
-use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
 use Sasedev\Doctrine\Behavior\Tree\Entity\MappedSuperclass\AbstractClosure;
 use Sasedev\Doctrine\Behavior\Tree\Strategy;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper;
@@ -135,7 +137,7 @@ class ClosureTreeRepository extends AbstractTreeRepository
      * @param boolean $includeNode
      * @throws InvalidArgumentException
      * @throws \InvalidArgumentException
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     public function childrenQueryBuilder($node = null, $direct = false, $sortByField = null, $direction = 'ASC', $includeNode = false)
     {
@@ -222,7 +224,7 @@ class ClosureTreeRepository extends AbstractTreeRepository
      * @param void $sortByField
      * @param string $direction
      * @param boolean $includeNode
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function childrenQuery($node = null, $direct = false, $sortByField = null, $direction = 'ASC', $includeNode = false)
     {
@@ -298,8 +300,8 @@ class ClosureTreeRepository extends AbstractTreeRepository
      *
      * @param object $node
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException
-     * @throws \Sasedev\Doctrine\Behavior\Exception\RuntimeException - if something fails in transaction
+     * @throws InvalidArgumentException
+     * @throws RuntimeException - if something fails in transaction
      */
     public function removeFromTree($node)
     {
@@ -366,7 +368,7 @@ class ClosureTreeRepository extends AbstractTreeRepository
             $this->_em->close();
             $this->_em->getConnection()
                 ->rollback();
-            throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException('Transaction failed: ' . $e->getMessage(), null, $e);
+            throw new RuntimeException('Transaction failed: ' . $e->getMessage(), null, $e);
         }
         // remove from identity map
         $this->_em->getUnitOfWork()
@@ -531,8 +533,7 @@ class ClosureTreeRepository extends AbstractTreeRepository
         $closureMeta = $this->_em->getClassMetadata($config['closure']);
         $errors = [];
 
-        $q = $this->_em->createQuery(
-            "
+        $q = $this->_em->createQuery("
           SELECT COUNT(node)
           FROM {$nodeMeta->name} AS node
           LEFT JOIN {$closureMeta->name} AS c WITH c.ancestor = node AND c.depth = 0
@@ -654,8 +655,7 @@ class ClosureTreeRepository extends AbstractTreeRepository
         };
 
         $nodeIdField = $nodeMeta->getSingleIdentifierFieldName();
-        $newClosuresCount = $buildClosures(
-            "
+        $newClosuresCount = $buildClosures("
           SELECT node.id AS ancestor, node.$nodeIdField AS descendant, 0 AS depth
           FROM {$nodeMeta->name} AS node
           LEFT JOIN {$closureMeta->name} AS c WITH c.ancestor = node AND c.depth = 0

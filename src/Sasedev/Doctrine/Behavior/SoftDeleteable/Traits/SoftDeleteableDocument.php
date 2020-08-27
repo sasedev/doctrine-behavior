@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\SoftDeleteable\Traits;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
@@ -12,7 +11,9 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  */
 trait SoftDeleteableDocument
 {
+
     /**
+     *
      * @var \DateTime
      * @ODM\Field(type="date")
      */
@@ -27,9 +28,11 @@ trait SoftDeleteableDocument
      */
     public function setDeletedAt(\DateTime $deletedAt = null)
     {
+
         $this->deletedAt = $deletedAt;
 
         return $this;
+
     }
 
     /**
@@ -39,7 +42,9 @@ trait SoftDeleteableDocument
      */
     public function getDeletedAt()
     {
+
         return $this->deletedAt;
+
     }
 
     /**
@@ -49,6 +54,9 @@ trait SoftDeleteableDocument
      */
     public function isDeleted()
     {
+
         return null !== $this->deletedAt;
+
     }
+
 }

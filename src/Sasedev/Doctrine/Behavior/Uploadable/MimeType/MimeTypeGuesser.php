@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Uploadable\MimeType;
 
 use Sasedev\Doctrine\Behavior\Exception\UploadableFileNotReadableException;
@@ -14,22 +13,24 @@ use Sasedev\Doctrine\Behavior\Exception\UploadableInvalidFileException;
  */
 class MimeTypeGuesser implements MimeTypeGuesserInterface
 {
+
     public function guess($filePath)
     {
-        if (!is_file($filePath)) {
-            throw new UploadableInvalidFileException(sprintf('File "%s" does not exist.',
-                $filePath
-            ));
+
+        if (! is_file($filePath))
+        {
+            throw new UploadableInvalidFileException(sprintf('File "%s" does not exist.', $filePath));
         }
 
-        if (!is_readable($filePath)) {
-            throw new UploadableFileNotReadableException(sprintf('File "%s" is not readable.',
-                $filePath
-            ));
+        if (! is_readable($filePath))
+        {
+            throw new UploadableFileNotReadableException(sprintf('File "%s" is not readable.', $filePath));
         }
 
-        if (function_exists('finfo_open')) {
-            if (!$finfo = new \finfo(FILEINFO_MIME_TYPE)) {
+        if (function_exists('finfo_open'))
+        {
+            if (! $finfo = new \finfo(FILEINFO_MIME_TYPE))
+            {
                 return null;
             }
 
@@ -37,5 +38,7 @@ class MimeTypeGuesser implements MimeTypeGuesserInterface
         }
 
         return null;
+
     }
+
 }

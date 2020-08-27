@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Sortable;
 
 /**
@@ -12,31 +11,34 @@ namespace Sasedev\Doctrine\Behavior\Sortable;
  */
 interface Sortable
 {
+
     // use now annotations instead of predefined methods, this interface is not necessary
 
-    /**
-     * @sasedev:SortablePosition - to mark property which will hold the item position use annotation @sasedev:SortablePosition
-     *              This property has to be numeric. The position index can be negative and will be counted from right to left.
-     *
-     * example:
-     *
-     * @sasedev:SortablePosition
-     * @Column(type="int")
-     * $position
-     *
-     * @sasedev:SortableGroup
-     * @Column(type="string", length=64)
-     * $category
-     *
-     */
+/**
+ *
+ * @sasedev:SortablePosition - to mark property which will hold the item position use annotation @sasedev:SortablePosition
+ *              This property has to be numeric. The position index can be negative and will be counted from right to left.
+ *
+ * example:
+ *
+ * @sasedev:SortablePosition
+ * @Column(type="int")
+ * $position
+ *
+ * @sasedev:SortableGroup
+ * @Column(type="string", length=64)
+ * $category
+ *
+ */
 
-    /**
-     * @sasedev:SortableGroup - to group node sorting by a property use annotation @sasedev:SortableGroup on this property
-     *
-     * example:
-     *
-     * @sasedev:SortableGroup
-     * @Column(type="string", length=64)
-     * $category
-     */
+/**
+ *
+ * @sasedev:SortableGroup - to group node sorting by a property use annotation @sasedev:SortableGroup on this property
+ *
+ * example:
+ *
+ * @sasedev:SortableGroup
+ * @Column(type="string", length=64)
+ * $category
+ */
 }

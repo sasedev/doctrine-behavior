@@ -49,38 +49,48 @@ class Annotation extends AbstractAnnotationDriver
         $class = $this->getMetaReflectionClass($meta);
 
         // property annotations
-        foreach ($class->getProperties() as $property) {
-            if ($meta->isMappedSuperclass && ! $property->isPrivate() || $meta->isInheritedField($property->name) || isset($meta->associationMappings[$property->name]['inherited'])) {
+        foreach ($class->getProperties() as $property)
+        {
+            if ($meta->isMappedSuperclass && ! $property->isPrivate() || $meta->isInheritedField($property->name) || isset($meta->associationMappings[$property->name]['inherited']))
+            {
                 continue;
             }
 
             // position
-            if ($this->reader->getPropertyAnnotation($property, self::POSITION)) {
+            if ($this->reader->getPropertyAnnotation($property, self::POSITION))
+            {
                 $field = $property->getName();
-                if (! $meta->hasField($field)) {
+                if (! $meta->hasField($field))
+                {
                     throw new InvalidMappingException("Unable to find 'position' - [{$field}] as mapped property in entity - {$meta->name}");
                 }
-                if (! $this->isValidField($meta, $field)) {
+                if (! $this->isValidField($meta, $field))
+                {
                     throw new InvalidMappingException("Sortable position field - [{$field}] type is not valid and must be 'integer' in class - {$meta->name}");
                 }
                 $config['position'] = $field;
             }
 
             // group
-            if ($this->reader->getPropertyAnnotation($property, self::GROUP)) {
+            if ($this->reader->getPropertyAnnotation($property, self::GROUP))
+            {
                 $field = $property->getName();
-                if (! $meta->hasField($field) && ! $meta->hasAssociation($field)) {
+                if (! $meta->hasField($field) && ! $meta->hasAssociation($field))
+                {
                     throw new InvalidMappingException("Unable to find 'group' - [{$field}] as mapped property in entity - {$meta->name}");
                 }
-                if (! isset($config['groups'])) {
+                if (! isset($config['groups']))
+                {
                     $config['groups'] = [];
                 }
                 $config['groups'][] = $field;
             }
         }
 
-        if (! $meta->isMappedSuperclass && $config) {
-            if (! isset($config['position'])) {
+        if (! $meta->isMappedSuperclass && $config)
+        {
+            if (! isset($config['position']))
+            {
                 throw new InvalidMappingException("Missing property: 'position' in class - {$meta->name}");
             }
         }

@@ -60,8 +60,7 @@ class Annotation extends AbstractAnnotationDriver
         // property annotations
         foreach ($class->getProperties() as $property)
         {
-            if ($meta->isMappedSuperclass && ! $property->isPrivate() || $meta->isInheritedField($property->name) ||
-                isset($meta->associationMappings[$property->name]['inherited']))
+            if ($meta->isMappedSuperclass && ! $property->isPrivate() || $meta->isInheritedField($property->name) || isset($meta->associationMappings[$property->name]['inherited']))
             {
                 continue;
             }
@@ -109,8 +108,7 @@ class Annotation extends AbstractAnnotationDriver
             }
             if (! $this->isValidField($meta, $fieldName))
             {
-                throw new InvalidMappingException(
-                    "Cannot use field - [{$fieldName}] for slug storage, type is not valid and must be 'string' or 'text' in class - {$meta->name}");
+                throw new InvalidMappingException("Cannot use field - [{$fieldName}] for slug storage, type is not valid and must be 'string' or 'text' in class - {$meta->name}");
             }
             // process slug handlers
             $handlers = [];
@@ -132,8 +130,7 @@ class Annotation extends AbstractAnnotationDriver
                     {
                         if (! $option instanceof SlugHandlerOption)
                         {
-                            throw new InvalidMappingException(
-                                "SlugHandlerOption: {$option} should be instance of SlugHandlerOption annotation in entity - {$meta->name}");
+                            throw new InvalidMappingException("SlugHandlerOption: {$option} should be instance of SlugHandlerOption annotation in entity - {$meta->name}");
                         }
                         if (! strlen($option->name))
                         {
@@ -158,8 +155,7 @@ class Annotation extends AbstractAnnotationDriver
                 }
                 if (! $this->isValidField($meta, $slugFieldWithPrefix))
                 {
-                    throw new InvalidMappingException(
-                        "Cannot use field - [{$slugFieldWithPrefix}] for slug storage, type is not valid and must be 'string' or 'text' in class - {$meta->name}");
+                    throw new InvalidMappingException("Cannot use field - [{$slugFieldWithPrefix}] for slug storage, type is not valid and must be 'string' or 'text' in class - {$meta->name}");
                 }
             }
             if (! is_bool($slug->updatable))
@@ -172,8 +168,7 @@ class Annotation extends AbstractAnnotationDriver
             }
             if (! empty($meta->identifier) && $meta->isIdentifier($fieldName) && ! (bool) $slug->unique)
             {
-                throw new InvalidMappingException(
-                    "Identifier field - [{$fieldName}] slug must be unique in order to maintain primary key in class - {$meta->name}");
+                throw new InvalidMappingException("Identifier field - [{$fieldName}] slug must be unique in order to maintain primary key in class - {$meta->name}");
             }
             if ($slug->unique === false && $slug->unique_base)
             {

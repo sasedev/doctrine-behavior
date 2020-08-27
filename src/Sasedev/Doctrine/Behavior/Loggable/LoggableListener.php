@@ -3,6 +3,9 @@ namespace Sasedev\Doctrine\Behavior\Loggable;
 
 use Doctrine\Common\EventArgs;
 use Sasedev\Doctrine\Behavior\Mapping\MappedEventSubscriber;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
+use Sasedev\Doctrine\Behavior\Loggable\Entity\LogEntry;
+use Sasedev\Doctrine\Behavior\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 use Sasedev\Doctrine\Behavior\Loggable\Mapping\Event\LoggableAdapter;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\AbstractWrapper;
 
@@ -63,17 +66,22 @@ class LoggableListener extends MappedEventSubscriber
      *
      * @param mixed $username
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException Invalid username
+     * @throws InvalidArgumentException Invalid username
      */
     public function setUsername($username)
     {
 
-        if (is_string($username)) {
+        if (is_string($username))
+        {
             $this->username = $username;
-        } elseif (is_object($username) && method_exists($username, 'getUsername')) {
+        }
+        elseif (is_object($username) && method_exists($username, 'getUsername'))
+        {
             $this->username = (string) $username->getUsername();
-        } else {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException("Username must be a string, or object should have method: getUsername");
+        }
+        else
+        {
+            throw new InvalidArgumentException("Username must be a string, or object should have method: getUsername");
         }
 
     }
@@ -139,14 +147,16 @@ class LoggableListener extends MappedEventSubscriber
         $om = $ea->getObjectManager();
         $oid = spl_object_hash($object);
         $uow = $om->getUnitOfWork();
-        if ($this->pendingLogEntryInserts && array_key_exists($oid, $this->pendingLogEntryInserts)) {
+        if ($this->pendingLogEntryInserts && array_key_exists($oid, $this->pendingLogEntryInserts))
+        {
             $wrapped = AbstractWrapper::wrap($object, $om);
 
             $logEntry = $this->pendingLogEntryInserts[$oid];
             $logEntryMeta = $om->getClassMetadata(get_class($logEntry));
 
             $id = $wrapped->getIdentifier();
-            $logEntryMeta->getReflectionProperty('objectId')->setValue($logEntry, $id);
+            $logEntryMeta->getReflectionProperty('objectId')
+                ->setValue($logEntry, $id);
             $uow->scheduleExtraUpdate($logEntry, [
                 'objectId' => [
                     null,
@@ -156,10 +166,12 @@ class LoggableListener extends MappedEventSubscriber
             $ea->setOriginalObjectProperty($uow, spl_object_hash($logEntry), 'objectId', $id);
             unset($this->pendingLogEntryInserts[$oid]);
         }
-        if ($this->pendingRelatedObjects && array_key_exists($oid, $this->pendingRelatedObjects)) {
+        if ($this->pendingRelatedObjects && array_key_exists($oid, $this->pendingRelatedObjects))
+        {
             $wrapped = AbstractWrapper::wrap($object, $om);
             $identifiers = $wrapped->getIdentifier(false);
-            foreach ($this->pendingRelatedObjects[$oid] as $props) {
+            foreach ($this->pendingRelatedObjects[$oid] as $props)
+            {
                 $logEntry = $props['log'];
                 $logEntryMeta = $om->getClassMetadata(get_class($logEntry));
                 $oldData = $data = $logEntry->getData();
@@ -210,13 +222,16 @@ class LoggableListener extends MappedEventSubscriber
         $om = $ea->getObjectManager();
         $uow = $om->getUnitOfWork();
 
-        foreach ($ea->getScheduledObjectInsertions($uow) as $object) {
+        foreach ($ea->getScheduledObjectInsertions($uow) as $object)
+        {
             $this->createLogEntry(self::ACTION_CREATE, $object, $ea);
         }
-        foreach ($ea->getScheduledObjectUpdates($uow) as $object) {
+        foreach ($ea->getScheduledObjectUpdates($uow) as $object)
+        {
             $this->createLogEntry(self::ACTION_UPDATE, $object, $ea);
         }
-        foreach ($ea->getScheduledObjectDeletions($uow) as $object) {
+        foreach ($ea->getScheduledObjectDeletions($uow) as $object)
+        {
             $this->createLogEntry(self::ACTION_REMOVE, $object, $ea);
         }
 
@@ -252,19 +267,26 @@ class LoggableListener extends MappedEventSubscriber
         $uow = $om->getUnitOfWork();
         $newValues = [];
 
-        foreach ($ea->getObjectChangeSet($uow, $object) as $field => $changes) {
-            if (empty($config['versioned']) || ! \in_array($field, $config['versioned'])) {
+        foreach ($ea->getObjectChangeSet($uow, $object) as $field => $changes)
+        {
+            if (empty($config['versioned']) || ! \in_array($field, $config['versioned']))
+            {
                 continue;
             }
             $value = $changes[1];
-            if ($meta->isSingleValuedAssociation($field) && $value) {
-                if ($wrapped->isEmbeddedAssociation($field)) {
+            if ($meta->isSingleValuedAssociation($field) && $value)
+            {
+                if ($wrapped->isEmbeddedAssociation($field))
+                {
                     $value = $this->getObjectChangeSetData($ea, $value, $logEntry);
-                } else {
+                }
+                else
+                {
                     $oid = spl_object_hash($value);
                     $wrappedAssoc = AbstractWrapper::wrap($value, $om);
                     $value = $wrappedAssoc->getIdentifier(false);
-                    if (! is_array($value) && ! $value) {
+                    if (! is_array($value) && ! $value)
+                    {
                         $this->pendingRelatedObjects[$oid][] = [
                             'log' => $logEntry,
                             'field' => $field
@@ -286,7 +308,7 @@ class LoggableListener extends MappedEventSubscriber
      * @param object $object
      * @param LoggableAdapter $ea
      *
-     * @return \Sasedev\Doctrine\Behavior\Loggable\Entity\MappedSuperclass\AbstractLogEntry|null
+     * @return AbstractLogEntry|null
      */
     protected function createLogEntry($action, $object, LoggableAdapter $ea)
     {
@@ -296,14 +318,16 @@ class LoggableListener extends MappedEventSubscriber
         $meta = $wrapped->getMetadata();
 
         // Filter embedded documents
-        if (isset($meta->isEmbeddedDocument) && $meta->isEmbeddedDocument) {
+        if (isset($meta->isEmbeddedDocument) && $meta->isEmbeddedDocument)
+        {
             return;
         }
 
-        if ($config = $this->getConfiguration($om, $meta->name)) {
+        if ($config = $this->getConfiguration($om, $meta->name))
+        {
             $logEntryClass = $this->getLogEntryClass($ea, $meta->name);
             $logEntryMeta = $om->getClassMetadata($logEntryClass);
-            /** @var \Sasedev\Doctrine\Behavior\Loggable\Entity\LogEntry $logEntry */
+            /** @var LogEntry $logEntry */
             $logEntry = $logEntryMeta->newInstance();
 
             $logEntry->setAction($action);
@@ -313,25 +337,32 @@ class LoggableListener extends MappedEventSubscriber
 
             // check for the availability of the primary key
             $uow = $om->getUnitOfWork();
-            if ($action === self::ACTION_CREATE && $ea->isPostInsertGenerator($meta)) {
+            if ($action === self::ACTION_CREATE && $ea->isPostInsertGenerator($meta))
+            {
                 $this->pendingLogEntryInserts[spl_object_hash($object)] = $logEntry;
-            } else {
+            }
+            else
+            {
                 $logEntry->setObjectId($wrapped->getIdentifier());
             }
             $newValues = [];
-            if ($action !== self::ACTION_REMOVE && isset($config['versioned'])) {
+            if ($action !== self::ACTION_REMOVE && isset($config['versioned']))
+            {
                 $newValues = $this->getObjectChangeSetData($ea, $object, $logEntry);
                 $logEntry->setData($newValues);
             }
 
-            if ($action === self::ACTION_UPDATE && 0 === count($newValues)) {
+            if ($action === self::ACTION_UPDATE && 0 === count($newValues))
+            {
                 return null;
             }
 
             $version = 1;
-            if ($action !== self::ACTION_CREATE) {
+            if ($action !== self::ACTION_CREATE)
+            {
                 $version = $ea->getNewVersion($logEntryMeta, $object);
-                if (empty($version)) {
+                if (empty($version))
+                {
                     // was versioned later
                     $version = 1;
                 }

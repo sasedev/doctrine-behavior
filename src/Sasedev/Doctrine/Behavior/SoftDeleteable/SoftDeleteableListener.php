@@ -59,18 +59,21 @@ class SoftDeleteableListener extends MappedEventSubscriber
         $uow = $om->getUnitOfWork();
         $evm = $om->getEventManager();
 
-        //getScheduledDocumentDeletions
-        foreach ($ea->getScheduledObjectDeletions($uow) as $object) {
+        // getScheduledDocumentDeletions
+        foreach ($ea->getScheduledObjectDeletions($uow) as $object)
+        {
             $meta = $om->getClassMetadata(get_class($object));
             $config = $this->getConfiguration($om, $meta->name);
 
-            if (isset($config['softDeleteable']) && $config['softDeleteable']) {
+            if (isset($config['softDeleteable']) && $config['softDeleteable'])
+            {
                 $reflProp = $meta->getReflectionProperty($config['fieldName']);
                 $oldValue = $reflProp->getValue($object);
                 $date = new \DateTime();
 
                 // Remove `$oldValue instanceof \DateTime` check when PHP version is bumped to >=5.5
-                if (isset($config['hardDelete']) && $config['hardDelete'] && ($oldValue instanceof \DateTime || $oldValue instanceof \DateTimeInterface) && $oldValue <= $date) {
+                if (isset($config['hardDelete']) && $config['hardDelete'] && ($oldValue instanceof \DateTime || $oldValue instanceof \DateTimeInterface) && $oldValue <= $date)
+                {
                     continue; // want to hard delete
                 }
 
@@ -80,9 +83,12 @@ class SoftDeleteableListener extends MappedEventSubscriber
 
                 $om->persist($object);
                 $uow->propertyChanged($object, $config['fieldName'], $oldValue, $date);
-                if ($uow instanceof MongoDBUnitOfWork && ! method_exists($uow, 'scheduleExtraUpdate')) {
+                if ($uow instanceof MongoDBUnitOfWork && ! method_exists($uow, 'scheduleExtraUpdate'))
+                {
                     $ea->recomputeSingleObjectChangeSet($uow, $meta, $object);
-                } else {
+                }
+                else
+                {
                     $uow->scheduleExtraUpdate($object, [
                         $config['fieldName'] => [
                             $oldValue,

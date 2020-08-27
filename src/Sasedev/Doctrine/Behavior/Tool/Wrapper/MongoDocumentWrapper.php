@@ -32,7 +32,7 @@ class MongoDocumentWrapper extends AbstractWrapper
      * Wrap document
      *
      * @param object $document
-     * @param \Doctrine\ODM\MongoDB\DocumentManager $dm
+     * @param DocumentManager $dm
      */
     public function __construct($document, DocumentManager $dm)
     {

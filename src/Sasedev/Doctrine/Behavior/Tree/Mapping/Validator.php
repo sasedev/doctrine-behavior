@@ -190,16 +190,20 @@ class Validator
     {
 
         $missingFields = [];
-        if (! isset($config['parent'])) {
+        if (! isset($config['parent']))
+        {
             $missingFields[] = 'ancestor';
         }
-        if (! isset($config['left'])) {
+        if (! isset($config['left']))
+        {
             $missingFields[] = 'left';
         }
-        if (! isset($config['right'])) {
+        if (! isset($config['right']))
+        {
             $missingFields[] = 'right';
         }
-        if ($missingFields) {
+        if ($missingFields)
+        {
             throw new InvalidMappingException("Missing properties: " . implode(', ', $missingFields) . " in class - {$meta->name}");
         }
 
@@ -217,13 +221,16 @@ class Validator
     {
 
         $missingFields = [];
-        if (! isset($config['parent'])) {
+        if (! isset($config['parent']))
+        {
             $missingFields[] = 'ancestor';
         }
-        if (! isset($config['closure'])) {
+        if (! isset($config['closure']))
+        {
             $missingFields[] = 'closure class';
         }
-        if ($missingFields) {
+        if ($missingFields)
+        {
             throw new InvalidMappingException("Missing properties: " . implode(', ', $missingFields) . " in class - {$meta->name}");
         }
 
@@ -241,16 +248,20 @@ class Validator
     {
 
         $missingFields = [];
-        if (! isset($config['parent'])) {
+        if (! isset($config['parent']))
+        {
             $missingFields[] = 'ancestor';
         }
-        if (! isset($config['path'])) {
+        if (! isset($config['path']))
+        {
             $missingFields[] = 'path';
         }
-        if (! isset($config['path_source'])) {
+        if (! isset($config['path_source']))
+        {
             $missingFields[] = 'path_source';
         }
-        if ($missingFields) {
+        if ($missingFields)
+        {
             throw new InvalidMappingException("Missing properties: " . implode(', ', $missingFields) . " in class - {$meta->name}");
         }
 

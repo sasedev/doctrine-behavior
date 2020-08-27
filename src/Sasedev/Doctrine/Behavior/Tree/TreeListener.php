@@ -3,6 +3,10 @@ namespace Sasedev\Doctrine\Behavior\Tree;
 
 use Doctrine\Common\EventArgs;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
+use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
 use Sasedev\Doctrine\Behavior\Mapping\MappedEventSubscriber;
 
 /**
@@ -75,14 +79,14 @@ class TreeListener extends MappedEventSubscriber
             $config = $this->getConfiguration($om, $class);
             if (! $config)
             {
-                throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException("Tree object class: {$class} must have tree metadata at this point");
+                throw new UnexpectedValueException("Tree object class: {$class} must have tree metadata at this point");
             }
             $managerName = 'UnsupportedManager';
-            if ($om instanceof \Doctrine\ORM\EntityManagerInterface)
+            if ($om instanceof EntityManagerInterface)
             {
                 $managerName = 'ORM';
             }
-            elseif ($om instanceof \Doctrine\ODM\MongoDB\DocumentManager)
+            elseif ($om instanceof DocumentManager)
             {
                 $managerName = 'ODM\\MongoDB';
             }
@@ -92,7 +96,7 @@ class TreeListener extends MappedEventSubscriber
 
                 if (! class_exists($strategyClass))
                 {
-                    throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException($managerName . " TreeListener does not support tree type: {$config['strategy']}");
+                    throw new InvalidArgumentException($managerName . " TreeListener does not support tree type: {$config['strategy']}");
                 }
                 $this->strategyInstances[$config['strategy']] = new $strategyClass($this);
             }

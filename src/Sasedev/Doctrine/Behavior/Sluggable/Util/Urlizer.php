@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Sluggable\Util;
 
 use Behat\Transliterator\Transliterator;
@@ -9,4 +8,5 @@ use Behat\Transliterator\Transliterator;
  */
 class Urlizer extends Transliterator
 {
+
 }

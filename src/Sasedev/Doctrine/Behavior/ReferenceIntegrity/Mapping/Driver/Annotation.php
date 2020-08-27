@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\ReferenceIntegrity\Mapping\Driver;
 
 use Sasedev\Doctrine\Behavior\Mapping\Driver\AbstractAnnotationDriver;
@@ -8,7 +7,8 @@ use Sasedev\Doctrine\Behavior\ReferenceIntegrity\Mapping\Validator;
 
 /**
  * This is an annotation mapping driver for ReferenceIntegrity
- * behavioral extension. Used for extraction of extended
+ * behavioral extension.
+ * Used for extraction of extended
  * metadata from Annotations specifically for ReferenceIntegrity
  * extension.
  *
@@ -17,6 +17,7 @@ use Sasedev\Doctrine\Behavior\ReferenceIntegrity\Mapping\Validator;
  */
 class Annotation extends AbstractAnnotationDriver
 {
+
     /**
      * Annotation to identify the fields which manages the reference integrity
      */
@@ -28,50 +29,40 @@ class Annotation extends AbstractAnnotationDriver
     const ACTION = 'Sasedev\\Doctrine\Behavior\\Mapping\\Annotation\\ReferenceIntegrityAction';
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      */
     public function readExtendedMetadata($meta, array &$config)
     {
+
         $validator = new Validator();
         $reflClass = $this->getMetaReflectionClass($meta);
 
-        foreach ($reflClass->getProperties() as $reflProperty) {
-            if ($referenceIntegrity = $this->reader->getPropertyAnnotation($reflProperty, self::REFERENCE_INTEGRITY)) {
+        foreach ($reflClass->getProperties() as $reflProperty)
+        {
+            if ($referenceIntegrity = $this->reader->getPropertyAnnotation($reflProperty, self::REFERENCE_INTEGRITY))
+            {
                 $property = $reflProperty->getName();
-                if (!$meta->hasField($property)) {
-                    throw new InvalidMappingException(
-                        sprintf(
-                            "Unable to find reference integrity [%s] as mapped property in entity - %s",
-                            $property,
-                            $meta->name
-                        )
-                    );
+                if (! $meta->hasField($property))
+                {
+                    throw new InvalidMappingException(sprintf("Unable to find reference integrity [%s] as mapped property in entity - %s", $property, $meta->name));
                 }
 
                 $fieldMapping = $meta->getFieldMapping($property);
-                if (!isset($fieldMapping['mappedBy'])) {
-                    throw new InvalidMappingException(
-                        sprintf(
-                            "'mappedBy' should be set on '%s' in '%s'",
-                            $property,
-                            $meta->name
-                        )
-                    );
+                if (! isset($fieldMapping['mappedBy']))
+                {
+                    throw new InvalidMappingException(sprintf("'mappedBy' should be set on '%s' in '%s'", $property, $meta->name));
                 }
 
-                if (!\in_array($referenceIntegrity->value, $validator->getIntegrityActions())) {
-                    throw new InvalidMappingException(
-                        sprintf(
-                            "Field - [%s] does not have a valid integrity option, [%s] in class - %s",
-                            $property,
-                            implode($validator->getIntegrityActions(), ', '),
-                            $meta->name
-                        )
-                    );
+                if (! \in_array($referenceIntegrity->value, $validator->getIntegrityActions()))
+                {
+                    throw new InvalidMappingException(sprintf("Field - [%s] does not have a valid integrity option, [%s] in class - %s", $property, implode($validator->getIntegrityActions(), ', '), $meta->name));
                 }
 
                 $config['referenceIntegrity'][$property] = $referenceIntegrity->value;
             }
         }
+
     }
+
 }

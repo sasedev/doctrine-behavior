@@ -5,6 +5,7 @@ use Doctrine\Common\Proxy\Proxy;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
 use Sasedev\Doctrine\Behavior\Mapping\Event\Adapter\ORM as BaseAdapterORM;
 use Sasedev\Doctrine\Behavior\Translatable\Mapping\Event\TranslatableAdapter;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\AbstractWrapper;
@@ -60,8 +61,7 @@ final class ORM extends BaseAdapterORM implements TranslatableAdapter
             $found = false;
             foreach ($wrapped->getMetadata()->associationMappings as $assoc)
             {
-                $isRightCollection = $assoc['targetEntity'] === $translationClass && $assoc['mappedBy'] === 'object' &&
-                    $assoc['type'] === ClassMetadataInfo::ONE_TO_MANY;
+                $isRightCollection = $assoc['targetEntity'] === $translationClass && $assoc['mappedBy'] === 'object' && $assoc['type'] === ClassMetadataInfo::ONE_TO_MANY;
                 if ($isRightCollection)
                 {
                     $collection = $wrapped->getPropertyValue($assoc['fieldName']);
@@ -262,7 +262,7 @@ final class ORM extends BaseAdapterORM implements TranslatableAdapter
         if (! $em->getConnection()
             ->insert($table, $data))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException('Failed to insert new Translation record');
+            throw new RuntimeException('Failed to insert new Translation record');
         }
 
     }

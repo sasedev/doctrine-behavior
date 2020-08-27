@@ -3,6 +3,7 @@ namespace Sasedev\Doctrine\Behavior\Tree;
 
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
 
 class RepositoryUtils implements RepositoryUtilsInterface
@@ -58,7 +59,7 @@ class RepositoryUtils implements RepositoryUtilsInterface
         {
             if ($node instanceof $meta->name)
             {
-                $wrapperClass = $this->om instanceof \Doctrine\ORM\EntityManagerInterface ? '\Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper' : '\Sasedev\Doctrine\Behavior\Tool\Wrapper\MongoDocumentWrapper';
+                $wrapperClass = $this->om instanceof EntityManagerInterface ? '\Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper' : '\Sasedev\Doctrine\Behavior\Tool\Wrapper\MongoDocumentWrapper';
                 $wrapped = new $wrapperClass($node, $this->om);
                 if (! $wrapped->hasValidIdentifier())
                 {

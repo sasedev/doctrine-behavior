@@ -2,12 +2,11 @@
 namespace Sasedev\Doctrine\Behavior;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\ODM\MongoDB\Mapping\Driver as DriverMongodbODM;
 use Doctrine\ORM\Mapping\Driver as DriverORM;
+use Doctrine\ODM\MongoDB\Mapping\Driver as DriverMongodbODM;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 
 /**
@@ -23,7 +22,7 @@ final class DoctrineExtensions
     /**
      * Current version of extensions
      */
-    const VERSION = 'v2.4.26';
+    const VERSION = 'v1.0.2';
 
     /**
      * Hooks all extensions metadata mapping drivers
@@ -116,16 +115,6 @@ final class DoctrineExtensions
             __DIR__ . '/Loggable/Document/MappedSuperclass'
         ]);
         $driverChain->addDriver($annotationDriver, 'Sasedev/Doctrine/Behavior');
-
-    }
-
-    /**
-     * Includes all extension annotations once
-     */
-    public static function registerAnnotations()
-    {
-
-        AnnotationRegistry::registerFile(__DIR__ . '/Mapping/Annotation/All.php');
 
     }
 

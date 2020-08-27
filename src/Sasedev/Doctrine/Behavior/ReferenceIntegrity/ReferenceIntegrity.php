@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\ReferenceIntegrity;
 
 /**
@@ -12,36 +11,41 @@ namespace Sasedev\Doctrine\Behavior\ReferenceIntegrity;
  */
 interface ReferenceIntegrity
 {
-    /**
-     * ReferenceIntegrity expects certain settings to be required
-     * in combination with an association
-     */
 
-    /**
-     * example
-     * @ODM\ReferenceOne(targetDocument="Article", nullable="true", mappedBy="type")
-     * @Sasedev\ReferenceIntegrity("nullify")
-     * @var Article
-     */
+/**
+ * ReferenceIntegrity expects certain settings to be required
+ * in combination with an association
+ */
 
-    /**
-     * example
-     * @ODM\ReferenceOne(targetDocument="Article", nullable="true", mappedBy="type")
-     * @Sasedev\ReferenceIntegrity("restrict")
-     * @var Article
-     */
+/**
+ * example
+ *
+ * @ODM\ReferenceOne(targetDocument="Article", nullable="true", mappedBy="type")
+ * @Sasedev\ReferenceIntegrity("nullify")
+ * @var Article
+ */
 
-    /**
-     * example
-     * @ODM\ReferenceMany(targetDocument="Article", nullable="true", mappedBy="type")
-     * @Sasedev\ReferenceIntegrity("nullify")
-     * @var Doctrine\Common\Collections\ArrayCollection
-     */
+/**
+ * example
+ *
+ * @ODM\ReferenceOne(targetDocument="Article", nullable="true", mappedBy="type")
+ * @Sasedev\ReferenceIntegrity("restrict")
+ * @var Article
+ */
 
-    /**
-     * example
-     * @ODM\ReferenceMany(targetDocument="Article", nullable="true", mappedBy="type")
-     * @Sasedev\ReferenceIntegrity("restrict")
-     * @var Doctrine\Common\Collections\ArrayCollection
-     */
+/**
+ * example
+ *
+ * @ODM\ReferenceMany(targetDocument="Article", nullable="true", mappedBy="type")
+ * @Sasedev\ReferenceIntegrity("nullify")
+ * @var Doctrine\Common\Collections\ArrayCollection
+ */
+
+/**
+ * example
+ *
+ * @ODM\ReferenceMany(targetDocument="Article", nullable="true", mappedBy="type")
+ * @Sasedev\ReferenceIntegrity("restrict")
+ * @var Doctrine\Common\Collections\ArrayCollection
+ */
 }

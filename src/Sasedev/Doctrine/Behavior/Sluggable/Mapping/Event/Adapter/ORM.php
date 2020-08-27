@@ -103,11 +103,10 @@ class ORM extends BaseAdapterORM implements SluggableAdapter
         $em = $this->getObjectManager();
         $qb = $em->createQueryBuilder();
         $qb->update($config['useObjectClass'], 'rec')
-            ->set('rec.' . $config['slug'],
-            $qb->expr()
-                ->concat($qb->expr()
-                ->literal($replacement), $qb->expr()
-                ->substring('rec.' . $config['slug'], mb_strlen($target))))
+            ->set('rec.' . $config['slug'], $qb->expr()
+            ->concat($qb->expr()
+            ->literal($replacement), $qb->expr()
+            ->substring('rec.' . $config['slug'], mb_strlen($target))))
             ->where($qb->expr()
             ->like('rec.' . $config['slug'], $qb->expr()
             ->literal($target . '%')));
@@ -128,11 +127,10 @@ class ORM extends BaseAdapterORM implements SluggableAdapter
         $em = $this->getObjectManager();
         $qb = $em->createQueryBuilder();
         $qb->update($config['useObjectClass'], 'rec')
-            ->set('rec.' . $config['slug'],
-            $qb->expr()
-                ->concat($qb->expr()
-                ->literal($target), $qb->expr()
-                ->substring('rec.' . $config['slug'], mb_strlen($replacement) + 1)))
+            ->set('rec.' . $config['slug'], $qb->expr()
+            ->concat($qb->expr()
+            ->literal($target), $qb->expr()
+            ->substring('rec.' . $config['slug'], mb_strlen($replacement) + 1)))
             ->where($qb->expr()
             ->like('rec.' . $config['slug'], $qb->expr()
             ->literal($replacement . '%')));

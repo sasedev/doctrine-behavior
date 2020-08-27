@@ -34,12 +34,15 @@ class Yaml extends File implements Driver
 
         $mapping = $this->_getMapping($meta->name);
 
-        if (isset($mapping['sasedev']) && isset($mapping['sasedev']['reference'])) {
+        if (isset($mapping['sasedev']) && isset($mapping['sasedev']['reference']))
+        {
 
-            foreach ($mapping['sasedev']['reference'] as $field => $fieldMapping) {
+            foreach ($mapping['sasedev']['reference'] as $field => $fieldMapping)
+            {
                 $reference = $fieldMapping['reference'];
 
-                if (! \in_array($reference, array_keys($this->validReferences))) {
+                if (! \in_array($reference, array_keys($this->validReferences)))
+                {
                     throw new InvalidMappingException($reference . ' is not a valid reference, valid references are: ' . implode(', ', array_keys($this->validReferences)));
                 }
 
@@ -49,15 +52,18 @@ class Yaml extends File implements Driver
                     'class' => $fieldMapping['class']
                 ];
 
-                if (array_key_exists('mappedBy', $fieldMapping)) {
+                if (array_key_exists('mappedBy', $fieldMapping))
+                {
                     $config[$reference][$field]['mappedBy'] = $fieldMapping['mappedBy'];
                 }
 
-                if (array_key_exists('identifier', $fieldMapping)) {
+                if (array_key_exists('identifier', $fieldMapping))
+                {
                     $config[$reference][$field]['identifier'] = $fieldMapping['identifier'];
                 }
 
-                if (array_key_exists('inversedBy', $fieldMapping)) {
+                if (array_key_exists('inversedBy', $fieldMapping))
+                {
                     $config[$reference][$field]['inversedBy'] = $fieldMapping['inversedBy'];
                 }
             }

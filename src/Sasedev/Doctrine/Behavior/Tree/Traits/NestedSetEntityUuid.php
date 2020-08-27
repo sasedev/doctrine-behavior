@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Tree\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -17,9 +16,11 @@ trait NestedSetEntityUuid
     use NestedSetEntity;
 
     /**
+     *
      * @var string
      * @Sasedev\TreeRoot
      * @ORM\Column(name="root", type="string", nullable=true)
      */
     private $root;
+
 }

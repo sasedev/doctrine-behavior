@@ -60,74 +60,93 @@ class ReferenceIntegrityListener extends MappedEventSubscriber
         $class = get_class($object);
         $meta = $om->getClassMetadata($class);
 
-        if ($config = $this->getConfiguration($om, $class)) {
-            foreach ($config['referenceIntegrity'] as $property => $action) {
+        if ($config = $this->getConfiguration($om, $class))
+        {
+            foreach ($config['referenceIntegrity'] as $property => $action)
+            {
                 $reflProp = $meta->getReflectionProperty($property);
                 $refDoc = $reflProp->getValue($object);
                 $fieldMapping = $meta->getFieldMapping($property);
 
-                switch ($action) {
+                switch ($action)
+                {
                     case Validator::NULLIFY:
-                        if (! isset($fieldMapping['mappedBy'])) {
+                        if (! isset($fieldMapping['mappedBy']))
+                        {
                             throw new InvalidMappingException(sprintf("Reference '%s' on '%s' should have 'mappedBy' option defined", $property, $meta->name));
                         }
 
                         $subMeta = $om->getClassMetadata($fieldMapping['targetDocument']);
 
-                        if (! $subMeta->hasField($fieldMapping['mappedBy'])) {
+                        if (! $subMeta->hasField($fieldMapping['mappedBy']))
+                        {
                             throw new InvalidMappingException(sprintf("Unable to find reference integrity [%s] as mapped property in entity - %s", $fieldMapping['mappedBy'], $fieldMapping['targetDocument']));
                         }
 
                         $refReflProp = $subMeta->getReflectionProperty($fieldMapping['mappedBy']);
 
-                        if ($meta->isCollectionValuedReference($property)) {
-                            foreach ($refDoc as $refObj) {
+                        if ($meta->isCollectionValuedReference($property))
+                        {
+                            foreach ($refDoc as $refObj)
+                            {
                                 $refReflProp->setValue($refObj, null);
                                 $om->persist($refObj);
                             }
-                        } else {
+                        }
+                        else
+                        {
                             $refReflProp->setValue($refDoc, null);
                             $om->persist($refDoc);
                         }
 
                         break;
                     case Validator::PULL:
-                        if (! isset($fieldMapping['mappedBy'])) {
+                        if (! isset($fieldMapping['mappedBy']))
+                        {
                             throw new InvalidMappingException(sprintf("Reference '%s' on '%s' should have 'mappedBy' option defined", $property, $meta->name));
                         }
 
                         $subMeta = $om->getClassMetadata($fieldMapping['targetDocument']);
 
-                        if (! $subMeta->hasField($fieldMapping['mappedBy'])) {
+                        if (! $subMeta->hasField($fieldMapping['mappedBy']))
+                        {
                             throw new InvalidMappingException(sprintf("Unable to find reference integrity [%s] as mapped property in entity - %s", $fieldMapping['mappedBy'], $fieldMapping['targetDocument']));
                         }
 
-                        if (! $subMeta->isCollectionValuedReference($fieldMapping['mappedBy'])) {
+                        if (! $subMeta->isCollectionValuedReference($fieldMapping['mappedBy']))
+                        {
                             throw new InvalidMappingException(sprintf("Reference integrity [%s] mapped property in entity - %s should be a Reference Many", $fieldMapping['mappedBy'], $fieldMapping['targetDocument']));
                         }
 
                         $refReflProp = $subMeta->getReflectionProperty($fieldMapping['mappedBy']);
 
-                        if ($meta->isCollectionValuedReference($property)) {
-                            foreach ($refDoc as $refObj) {
+                        if ($meta->isCollectionValuedReference($property))
+                        {
+                            foreach ($refDoc as $refObj)
+                            {
                                 $collection = $refReflProp->getValue($refObj);
                                 $collection->removeElement($object);
                                 $refReflProp->setValue($refObj, $collection);
                                 $om->persist($refObj);
                             }
-                        } else if (is_object($refDoc)) {
-                            $collection = $refReflProp->getValue($refDoc);
-                            $collection->removeElement($object);
-                            $refReflProp->setValue($refDoc, $collection);
-                            $om->persist($refDoc);
                         }
+                        else
+                            if (is_object($refDoc))
+                            {
+                                $collection = $refReflProp->getValue($refDoc);
+                                $collection->removeElement($object);
+                                $refReflProp->setValue($refDoc, $collection);
+                                $om->persist($refDoc);
+                            }
 
                         break;
                     case Validator::RESTRICT:
-                        if ($meta->isCollectionValuedReference($property) && $refDoc->count() > 0) {
+                        if ($meta->isCollectionValuedReference($property) && $refDoc->count() > 0)
+                        {
                             throw new ReferenceIntegrityStrictException(sprintf("The reference integrity for the '%s' collection is restricted", $fieldMapping['targetDocument']));
                         }
-                        if ($meta->isSingleValuedReference($property) && ! is_null($refDoc)) {
+                        if ($meta->isSingleValuedReference($property) && ! is_null($refDoc))
+                        {
                             throw new ReferenceIntegrityStrictException(sprintf("The reference integrity for the '%s' document is restricted", $fieldMapping['targetDocument']));
                         }
 

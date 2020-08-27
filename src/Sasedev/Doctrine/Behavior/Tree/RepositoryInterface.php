@@ -1,6 +1,8 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Tree;
 
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
+
 /**
  * This interface ensures a consistent api between repositories for the ORM and the ODM.
  *
@@ -63,7 +65,7 @@ interface RepositoryInterface extends RepositoryUtilsInterface
      * @param boolean $direct
      *            - true to count only direct children
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException - if input is not valid
+     * @throws InvalidArgumentException - if input is not valid
      *
      * @return integer
      */

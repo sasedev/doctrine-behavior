@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Mapping;
 
 /**
@@ -12,12 +11,13 @@ namespace Sasedev\Doctrine\Behavior\Mapping;
  */
 interface Driver
 {
+
     /**
      * Read extended metadata configuration for
      * a single mapped class
      *
      * @param object $meta
-     * @param array  $config
+     * @param array $config
      *
      * @return void
      */
@@ -31,4 +31,5 @@ interface Driver
      * @return void
      */
     public function setOriginalDriver($driver);
+
 }

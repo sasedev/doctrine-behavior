@@ -21,6 +21,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoODM;
  */
 class Translation extends MappedSuperclass\AbstractTranslation
 {
+
 /**
  * All required columns are mapped through inherited superclass
  */

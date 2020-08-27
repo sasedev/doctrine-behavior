@@ -108,8 +108,7 @@ class Xml extends BaseXml
                 {
                     if (! $validator->isValidFieldForRoot($meta, $field))
                     {
-                        throw new InvalidMappingException(
-                            "Tree root field - [{$field}] type is not valid and must be any of the 'integer' types or 'string' in class - {$meta->name}");
+                        throw new InvalidMappingException("Tree root field - [{$field}] type is not valid and must be any of the 'integer' types or 'string' in class - {$meta->name}");
                     }
                     $config['root'] = $field;
                 }
@@ -178,8 +177,7 @@ class Xml extends BaseXml
                 {
                     if (! $validator->isValidFieldForPathSource($meta, $field))
                     {
-                        throw new InvalidMappingException(
-                            "Tree PathSource field - [{$field}] type is not valid. It can be any of the integer variants, double, float or string in class - {$meta->name}");
+                        throw new InvalidMappingException("Tree PathSource field - [{$field}] type is not valid. It can be any of the integer variants, double, float or string in class - {$meta->name}");
                     }
                     $config['path_source'] = $field;
                 }
@@ -217,8 +215,7 @@ class Xml extends BaseXml
                         $targetEntity = $meta->associationMappings[$field]['targetEntity'];
                         if (! $cl = $this->getRelatedClassName($meta, $targetEntity))
                         {
-                            throw new InvalidMappingException(
-                                "Unable to find ancestor/parent child relation through ancestor field - [{$field}] in class - {$meta->name}");
+                            throw new InvalidMappingException("Unable to find ancestor/parent child relation through ancestor field - [{$field}] in class - {$meta->name}");
                         }
                         $config['parent'] = $field;
                     }
@@ -228,8 +225,7 @@ class Xml extends BaseXml
                         $targetEntity = $meta->associationMappings[$field]['targetEntity'];
                         if (! $cl = $this->getRelatedClassName($meta, $targetEntity))
                         {
-                            throw new InvalidMappingException(
-                                "Unable to find root descendant relation through root field - [{$field}] in class - {$meta->name}");
+                            throw new InvalidMappingException("Unable to find root descendant relation through root field - [{$field}] in class - {$meta->name}");
                         }
                         $config['root'] = $field;
                     }
@@ -250,8 +246,7 @@ class Xml extends BaseXml
                         $field = $this->_getAttribute($referenceOneMappingDoctrine, 'field');
                         if (! $cl = $this->getRelatedClassName($meta, $this->_getAttribute($referenceOneMappingDoctrine, 'target-document')))
                         {
-                            throw new InvalidMappingException(
-                                "Unable to find ancestor/parent child relation through ancestor field - [{$field}] in class - {$meta->name}");
+                            throw new InvalidMappingException("Unable to find ancestor/parent child relation through ancestor field - [{$field}] in class - {$meta->name}");
                         }
                         $config['parent'] = $field;
                     }
@@ -260,8 +255,7 @@ class Xml extends BaseXml
                         $field = $this->_getAttribute($referenceOneMappingDoctrine, 'field');
                         if (! $cl = $this->getRelatedClassName($meta, $this->_getAttribute($referenceOneMappingDoctrine, 'target-document')))
                         {
-                            throw new InvalidMappingException(
-                                "Unable to find root descendant relation through root field - [{$field}] in class - {$meta->name}");
+                            throw new InvalidMappingException("Unable to find root descendant relation through root field - [{$field}] in class - {$meta->name}");
                         }
                         $config['root'] = $field;
                     }
@@ -286,8 +280,7 @@ class Xml extends BaseXml
                         $targetEntity = $meta->associationMappings[$field]['targetEntity'];
                         if (! $cl = $this->getRelatedClassName($meta, $targetEntity))
                         {
-                            throw new InvalidMappingException(
-                                "Unable to find ancestor/parent child relation through ancestor field - [{$field}] in class - {$meta->name}");
+                            throw new InvalidMappingException("Unable to find ancestor/parent child relation through ancestor field - [{$field}] in class - {$meta->name}");
                         }
                         $config['parent'] = $field;
                     }
@@ -297,8 +290,7 @@ class Xml extends BaseXml
                         $targetEntity = $meta->associationMappings[$field]['targetEntity'];
                         if (! $cl = $this->getRelatedClassName($meta, $targetEntity))
                         {
-                            throw new InvalidMappingException(
-                                "Unable to find root descendant relation through root field - [{$field}] in class - {$meta->name}");
+                            throw new InvalidMappingException("Unable to find root descendant relation through root field - [{$field}] in class - {$meta->name}");
                         }
                         $config['root'] = $field;
                     }
@@ -322,8 +314,7 @@ class Xml extends BaseXml
                         $field = $this->_getAttribute($referenceOneMappingDoctrine, 'field');
                         if (! $cl = $this->getRelatedClassName($meta, $this->_getAttribute($referenceOneMappingDoctrine, 'target-document')))
                         {
-                            throw new InvalidMappingException(
-                                "Unable to find ancestor/parent child relation through ancestor field - [{$field}] in class - {$meta->name}");
+                            throw new InvalidMappingException("Unable to find ancestor/parent child relation through ancestor field - [{$field}] in class - {$meta->name}");
                         }
                         $config['parent'] = $field;
                     }
@@ -332,8 +323,7 @@ class Xml extends BaseXml
                         $field = $this->_getAttribute($referenceOneMappingDoctrine, 'field');
                         if (! $cl = $this->getRelatedClassName($meta, $this->_getAttribute($referenceOneMappingDoctrine, 'target-document')))
                         {
-                            throw new InvalidMappingException(
-                                "Unable to find root descendant relation through root field - [{$field}] in class - {$meta->name}");
+                            throw new InvalidMappingException("Unable to find root descendant relation through root field - [{$field}] in class - {$meta->name}");
                         }
                         $config['root'] = $field;
                     }

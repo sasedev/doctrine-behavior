@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Translator\Entity;
 
 use Sasedev\Doctrine\Behavior\Translator\Translation as BaseTranslation;
@@ -11,14 +10,16 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 /**
  * Entity translation class.
  *
- * @author  Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  *
  * @MappedSuperclass
  */
 abstract class Translation extends BaseTranslation
 {
+
     /**
+     *
      * @var integer $id
      *
      * @Column(type="integer")
@@ -28,6 +29,7 @@ abstract class Translation extends BaseTranslation
     protected $id;
 
     /**
+     *
      * @var string $locale
      *
      * @Column(type="string", length=8)
@@ -35,6 +37,7 @@ abstract class Translation extends BaseTranslation
     protected $locale;
 
     /**
+     *
      * @var string $property
      *
      * @Column(type="string", length=32)
@@ -42,6 +45,7 @@ abstract class Translation extends BaseTranslation
     protected $property;
 
     /**
+     *
      * @var string $value
      *
      * @Column(type="text", nullable=true)
@@ -55,6 +59,9 @@ abstract class Translation extends BaseTranslation
      */
     public function getId()
     {
+
         return $this->id;
+
     }
+
 }

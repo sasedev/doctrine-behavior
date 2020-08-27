@@ -41,15 +41,18 @@ class Xml extends BaseXml
          */
         $mapping = $this->_getMapping($meta->name);
 
-        if (isset($mapping->field)) {
+        if (isset($mapping->field))
+        {
             /**
              *
              * @var \SimpleXmlElement $fieldMapping
              */
-            foreach ($mapping->field as $fieldMapping) {
+            foreach ($mapping->field as $fieldMapping)
+            {
                 $fieldMappingDoctrine = $fieldMapping;
                 $fieldMapping = $fieldMapping->children(self::SASEDEV_NAMESPACE_URI);
-                if (isset($fieldMapping->{'ip-traceable'})) {
+                if (isset($fieldMapping->{'ip-traceable'}))
+                {
                     /**
                      *
                      * @var \SimpleXmlElement $data
@@ -57,24 +60,29 @@ class Xml extends BaseXml
                     $data = $fieldMapping->{'ip-traceable'};
 
                     $field = $this->_getAttribute($fieldMappingDoctrine, 'name');
-                    if (! $this->isValidField($meta, $field)) {
+                    if (! $this->isValidField($meta, $field))
+                    {
                         throw new InvalidMappingException("Field - [{$field}] type is not valid and must be 'string' in class - {$meta->name}");
                     }
                     if (! $this->_isAttributeSet($data, 'on') || ! \in_array($this->_getAttribute($data, 'on'), [
                         'update',
                         'create',
                         'change'
-                    ])) {
+                    ]))
+                    {
                         throw new InvalidMappingException("Field - [{$field}] trigger 'on' is not one of [update, create, change] in class - {$meta->name}");
                     }
 
-                    if ($this->_getAttribute($data, 'on') == 'change') {
-                        if (! $this->_isAttributeSet($data, 'field')) {
+                    if ($this->_getAttribute($data, 'on') == 'change')
+                    {
+                        if (! $this->_isAttributeSet($data, 'field'))
+                        {
                             throw new InvalidMappingException("Missing parameters on property - {$field}, field must be set on [change] trigger in class - {$meta->name}");
                         }
                         $trackedFieldAttribute = $this->_getAttribute($data, 'field');
                         $valueAttribute = $this->_isAttributeSet($data, 'value') ? $this->_getAttribute($data, 'value') : null;
-                        if (is_array($trackedFieldAttribute) && null !== $valueAttribute) {
+                        if (is_array($trackedFieldAttribute) && null !== $valueAttribute)
+                        {
                             throw new InvalidMappingException("IpTraceable extension does not support multiple value changeset detection yet.");
                         }
                         $field = [
@@ -88,35 +96,43 @@ class Xml extends BaseXml
             }
         }
 
-        if (isset($mapping->{'many-to-one'})) {
-            foreach ($mapping->{'many-to-one'} as $fieldMapping) {
+        if (isset($mapping->{'many-to-one'}))
+        {
+            foreach ($mapping->{'many-to-one'} as $fieldMapping)
+            {
                 $field = $this->_getAttribute($fieldMapping, 'field');
                 $fieldMapping = $fieldMapping->children(self::SASEDEV_NAMESPACE_URI);
-                if (isset($fieldMapping->{'ip-traceable'})) {
+                if (isset($fieldMapping->{'ip-traceable'}))
+                {
                     /**
                      *
                      * @var \SimpleXmlElement $data
                      */
                     $data = $fieldMapping->{'ip-traceable'};
 
-                    if (! $meta->isSingleValuedAssociation($field)) {
+                    if (! $meta->isSingleValuedAssociation($field))
+                    {
                         throw new InvalidMappingException("Association - [{$field}] is not valid, it must be a one-to-many relation or a string field - {$meta->name}");
                     }
                     if (! $this->_isAttributeSet($data, 'on') || ! \in_array($this->_getAttribute($data, 'on'), [
                         'update',
                         'create',
                         'change'
-                    ])) {
+                    ]))
+                    {
                         throw new InvalidMappingException("Field - [{$field}] trigger 'on' is not one of [update, create, change] in class - {$meta->name}");
                     }
 
-                    if ($this->_getAttribute($data, 'on') == 'change') {
-                        if (! $this->_isAttributeSet($data, 'field')) {
+                    if ($this->_getAttribute($data, 'on') == 'change')
+                    {
+                        if (! $this->_isAttributeSet($data, 'field'))
+                        {
                             throw new InvalidMappingException("Missing parameters on property - {$field}, field must be set on [change] trigger in class - {$meta->name}");
                         }
                         $trackedFieldAttribute = $this->_getAttribute($data, 'field');
                         $valueAttribute = $this->_isAttributeSet($data, 'value') ? $this->_getAttribute($data, 'value') : null;
-                        if (is_array($trackedFieldAttribute) && null !== $valueAttribute) {
+                        if (is_array($trackedFieldAttribute) && null !== $valueAttribute)
+                        {
                             throw new InvalidMappingException("IpTraceable extension does not support multiple value changeset detection yet.");
                         }
                         $field = [

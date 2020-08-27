@@ -1,10 +1,12 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Translatable\Mapping\Event\Adapter;
 
+use Doctrine\ODM\MongoDB\Iterator\Iterator;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Types\Type;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
 use Sasedev\Doctrine\Behavior\Mapping\Event\Adapter\ODM as BaseAdapterODM;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\AbstractWrapper;
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Sasedev\Doctrine\Behavior\Translatable\Mapping\Event\TranslatableAdapter;
 
 /**
@@ -58,8 +60,7 @@ final class ODM extends BaseAdapterODM implements TranslatableAdapter
             // first try to load it using collection
             foreach ($wrapped->getMetadata()->fieldMappings as $mapping)
             {
-                $isRightCollection = isset($mapping['association']) && $mapping['association'] === ClassMetadata::REFERENCE_MANY &&
-                    $mapping['targetDocument'] === $translationClass && $mapping['mappedBy'] === 'object';
+                $isRightCollection = isset($mapping['association']) && $mapping['association'] === ClassMetadata::REFERENCE_MANY && $mapping['targetDocument'] === $translationClass && $mapping['mappedBy'] === 'object';
                 if ($isRightCollection)
                 {
                     $collection = $wrapped->getPropertyValue($mapping['fieldName']);
@@ -195,7 +196,7 @@ final class ODM extends BaseAdapterODM implements TranslatableAdapter
 
         if (! $collection->insert($data))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException('Failed to insert new Translation record');
+            throw new RuntimeException('Failed to insert new Translation record');
         }
 
     }
@@ -242,10 +243,7 @@ final class ODM extends BaseAdapterODM implements TranslatableAdapter
     private function getType($type)
     {
 
-        // due to change in ODM beta 9
-        // return class_exists('Doctrine\ODM\MongoDB\Types\Type') ? \Doctrine\ODM\MongoDB\Types\Type::getType($type) :
-        // \Doctrine\ODM\MongoDB\Mapping\Types\Type::getType($type);
-        return \Doctrine\ODM\MongoDB\Types\Type::getType($type);
+        return Type::getType($type);
 
     }
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Translator\Document;
 
 use Sasedev\Doctrine\Behavior\Translator\Translation as BaseTranslation;
@@ -10,19 +9,22 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 /**
  * Document translation class.
  *
- * @author  Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  *
  * @MappedSuperclass
  */
 abstract class Translation extends BaseTranslation
 {
+
     /**
+     *
      * @Id
      */
     protected $id;
 
     /**
+     *
      * @var string $locale
      *
      * @ODM\Field(type="string")
@@ -30,6 +32,7 @@ abstract class Translation extends BaseTranslation
     protected $locale;
 
     /**
+     *
      * @var string $property
      *
      * @ODM\Field(type="string")
@@ -37,6 +40,7 @@ abstract class Translation extends BaseTranslation
     protected $property;
 
     /**
+     *
      * @var string $value
      *
      * @ODM\Field(type="string")
@@ -50,6 +54,9 @@ abstract class Translation extends BaseTranslation
      */
     public function getId()
     {
+
         return $this->id;
+
     }
+
 }

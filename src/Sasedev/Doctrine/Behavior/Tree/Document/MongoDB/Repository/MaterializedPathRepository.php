@@ -1,6 +1,8 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Tree\Document\MongoDB\Repository;
 
+use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\ODM\MongoDB\Query\Query;
 use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
 use Sasedev\Doctrine\Behavior\Tree\Strategy;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\MongoDocumentWrapper;
@@ -23,7 +25,7 @@ class MaterializedPathRepository extends AbstractTreeRepository
      *
      * @param object $rootNode
      *
-     * @return \Doctrine\ODM\MongoDB\Query\Builder
+     * @return Builder
      */
     public function getTreeQueryBuilder($rootNode = null)
     {
@@ -37,7 +39,7 @@ class MaterializedPathRepository extends AbstractTreeRepository
      *
      * @param object $rootNode
      *
-     * @return \Doctrine\ODM\MongoDB\Query\Query
+     * @return Query
      */
     public function getTreeQuery($rootNode = null)
     {
@@ -52,7 +54,7 @@ class MaterializedPathRepository extends AbstractTreeRepository
      *
      * @param object $rootNode
      *
-     * @return \Doctrine\ODM\MongoDB\Iterator\Iterator;
+     * @return Iterator;
      */
     public function getTree($rootNode = null)
     {

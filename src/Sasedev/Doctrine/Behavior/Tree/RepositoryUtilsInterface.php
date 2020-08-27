@@ -1,6 +1,8 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Tree;
 
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
+
 interface RepositoryUtilsInterface
 {
 
@@ -9,7 +11,7 @@ interface RepositoryUtilsInterface
      *
      * Uses options to handle decorations
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param object $node
      *            - from which node to start reordering the tree
@@ -37,7 +39,7 @@ interface RepositoryUtilsInterface
      * Uses options to handle decorations
      * NOTE: nodes should be fetched and hydrated as array
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param array $nodes
      *            - list o nodes to build tree

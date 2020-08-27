@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Tree\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +12,9 @@ use Sasedev\Doctrine\Behavior\Mapping\Annotation as Sasedev;
  */
 trait NestedSetEntity
 {
+
     /**
+     *
      * @var integer
      * @Sasedev\TreeRoot
      * @ORM\Column(name="root", type="integer", nullable=true)
@@ -21,6 +22,7 @@ trait NestedSetEntity
     private $root;
 
     /**
+     *
      * @var integer
      * @Sasedev\TreeLevel
      * @ORM\Column(name="lvl", type="integer")
@@ -28,6 +30,7 @@ trait NestedSetEntity
     private $level;
 
     /**
+     *
      * @var integer
      * @Sasedev\TreeLeft
      * @ORM\Column(name="lft", type="integer")
@@ -35,9 +38,11 @@ trait NestedSetEntity
     private $left;
 
     /**
+     *
      * @var integer
      * @Sasedev\TreeRight
      * @ORM\Column(name="rgt", type="integer")
      */
     private $right;
+
 }

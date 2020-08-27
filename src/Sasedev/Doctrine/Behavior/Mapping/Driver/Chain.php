@@ -83,22 +83,25 @@ class Chain implements Driver
     public function readExtendedMetadata($meta, array &$config)
     {
 
-        foreach ($this->_drivers as $namespace => $driver) {
-            if (strpos($meta->name, $namespace) === 0) {
+        foreach ($this->_drivers as $namespace => $driver)
+        {
+            if (strpos($meta->name, $namespace) === 0)
+            {
                 $driver->readExtendedMetadata($meta, $config);
 
                 return;
             }
         }
 
-        if (null !== $this->defaultDriver) {
+        if (null !== $this->defaultDriver)
+        {
             $this->defaultDriver->readExtendedMetadata($meta, $config);
 
             return;
         }
 
         // commenting it for customized mapping support, debugging of such cases might get harder
-        //throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException('Class ' . $meta->name . ' is not a valid entity or mapped super class.');
+        // throw new UnexpectedValueException('Class ' . $meta->name . ' is not a valid entity or mapped super class.');
     }
 
     /**
@@ -112,7 +115,7 @@ class Chain implements Driver
     {
 
 
-        //not needed here
+        // not needed here
     }
 
 }

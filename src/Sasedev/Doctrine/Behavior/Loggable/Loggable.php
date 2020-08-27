@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Loggable;
 
 /**
@@ -12,17 +11,19 @@ namespace Sasedev\Doctrine\Behavior\Loggable;
  */
 interface Loggable
 {
+
     // this interface is not necessary to implement
 
-    /**
-     * @sasedev:Loggable
-     * to mark the class as loggable use class annotation @sasedev:Loggable
-     * this object will contain now a history
-     * available options:
-     *         logEntryClass="My\LogEntryObject" (optional) defaultly will use internal object class
-     * example:
-     *
-     * @sasedev:Loggable(logEntryClass="My\LogEntryObject")
-     * class MyEntity
-     */
+/**
+ *
+ * @sasedev:Loggable
+ * to mark the class as loggable use class annotation @sasedev:Loggable
+ * this object will contain now a history
+ * available options:
+ *         logEntryClass="My\LogEntryObject" (optional) defaultly will use internal object class
+ * example:
+ *
+ * @sasedev:Loggable(logEntryClass="My\LogEntryObject")
+ * class MyEntity
+ */
 }

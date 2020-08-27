@@ -3,9 +3,11 @@ namespace Sasedev\Doctrine\Behavior\Loggable\Document\Repository;
 
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\ODM\MongoDB\Iterator\Iterator;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
+use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
 use Sasedev\Doctrine\Behavior\Loggable\Document\LogEntry;
-use Sasedev\Doctrine\Behavior\Tool\Wrapper\MongoDocumentWrapper;
 use Sasedev\Doctrine\Behavior\Loggable\LoggableListener;
+use Sasedev\Doctrine\Behavior\Tool\Wrapper\MongoDocumentWrapper;
 
 /**
  * The LogEntryRepository has some useful functions
@@ -34,20 +36,25 @@ class LogEntryRepository extends DocumentRepository
      */
     public function getLogEntries($document)
     {
+
         $wrapped = new MongoDocumentWrapper($document, $this->dm);
         $objectId = $wrapped->getIdentifier();
 
         $qb = $this->createQueryBuilder();
-        $qb->field('objectId')->equals($objectId);
-        $qb->field('objectClass')->equals($wrapped->getMetadata()->name);
+        $qb->field('objectId')
+            ->equals($objectId);
+        $qb->field('objectClass')
+            ->equals($wrapped->getMetadata()->name);
         $qb->sort('version', 'DESC');
         $q = $qb->getQuery();
 
         $result = $q->execute();
-        if ($result instanceof Iterator) {
+        if ($result instanceof Iterator)
+        {
             $result = $result->toArray();
         }
         return $result;
+
     }
 
     /**
@@ -59,37 +66,46 @@ class LogEntryRepository extends DocumentRepository
      * @param object $document
      * @param integer $version
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return void
      */
     public function revert($document, $version = 1)
     {
+
         $wrapped = new MongoDocumentWrapper($document, $this->dm);
         $objectMeta = $wrapped->getMetadata();
         $objectId = $wrapped->getIdentifier();
 
         $qb = $this->createQueryBuilder();
-        $qb->field('objectId')->equals($objectId);
-        $qb->field('objectClass')->equals($objectMeta->name);
-        $qb->field('version')->lte(intval($version));
+        $qb->field('objectId')
+            ->equals($objectId);
+        $qb->field('objectClass')
+            ->equals($objectMeta->name);
+        $qb->field('version')
+            ->lte(intval($version));
         $qb->sort('version', 'ASC');
         $q = $qb->getQuery();
 
         $logs = $q->execute();
-        if ($logs instanceof Iterator) {
+        if ($logs instanceof Iterator)
+        {
             $logs = $logs->toArray();
         }
-        if ($logs) {
+        if ($logs)
+        {
             $data = [];
-            while (($log = array_shift($logs))) {
+            while (($log = array_shift($logs)))
+            {
                 $data = array_merge($data, $log->getData());
             }
             $this->fillDocument($document, $data, $objectMeta);
-        } else {
-            throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException(
-                'Count not find any log entries under version: ' . $version);
         }
+        else
+        {
+            throw new UnexpectedValueException('Count not find any log entries under version: ' . $version);
+        }
+
     }
 
     /**
@@ -100,24 +116,32 @@ class LogEntryRepository extends DocumentRepository
      */
     protected function fillDocument($document, array $data)
     {
+
         $wrapped = new MongoDocumentWrapper($document, $this->dm);
         $objectMeta = $wrapped->getMetadata();
-        $config = $this->getLoggableListener()->getConfiguration($this->dm, $objectMeta->name);
+        $config = $this->getLoggableListener()
+            ->getConfiguration($this->dm, $objectMeta->name);
         $fields = $config['versioned'];
-        foreach ($data as $field => $value) {
-            if (! \in_array($field, $fields)) {
+        foreach ($data as $field => $value)
+        {
+            if (! \in_array($field, $fields))
+            {
                 continue;
             }
             $mapping = $objectMeta->getFieldMapping($field);
             // Fill the embedded document
-            if ($wrapped->isEmbeddedAssociation($field)) {
-                if (! empty($value)) {
+            if ($wrapped->isEmbeddedAssociation($field))
+            {
+                if (! empty($value))
+                {
                     $embeddedMetadata = $this->dm->getClassMetadata($mapping['targetDocument']);
                     $document = $embeddedMetadata->newInstance();
                     $this->fillDocument($document, $value);
                     $value = $document;
                 }
-            } elseif ($objectMeta->isSingleValuedAssociation($field)) {
+            }
+            elseif ($objectMeta->isSingleValuedAssociation($field))
+            {
                 $value = $value ? $this->dm->getReference($mapping['targetDocument'], $value) : null;
             }
             $wrapped->setPropertyValue($field, $value);
@@ -126,8 +150,7 @@ class LogEntryRepository extends DocumentRepository
 
         /*
          * if (count($fields)) {
-         * throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException('Cound not fully revert the document
-         * to version: '.$version);
+         * throw new UnexpectedValueException('Cound not fully revert the document to version: '.$version);
          * }
          */
     }
@@ -135,32 +158,41 @@ class LogEntryRepository extends DocumentRepository
     /**
      * Get the currently used LoggableListener
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\RuntimeException - if listener is not found
+     * @throws RuntimeException - if listener is not found
      *
      * @return LoggableListener
      */
     private function getLoggableListener()
     {
-        if (\is_null($this->listener)) {
+
+        if (\is_null($this->listener))
+        {
             // foreach ($this->dm->getEventManager()->getListeners() as $event => $listeners) {
-            foreach ($this->dm->getEventManager()->getListeners() as $listeners) {
-                foreach ($listeners as $listener) {
+            foreach ($this->dm->getEventManager()
+                ->getListeners() as $listeners)
+            {
+                foreach ($listeners as $listener)
+                {
                     // foreach ($listeners as $hash => $listener) {
-                    if ($listener instanceof LoggableListener) {
+                    if ($listener instanceof LoggableListener)
+                    {
                         $this->listener = $listener;
                         break;
                     }
                 }
-                if ($this->listener) {
+                if ($this->listener)
+                {
                     break;
                 }
             }
 
-            if (is_null($this->listener)) {
-                throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException(
-                    'The loggable listener could not be found');
+            if (is_null($this->listener))
+            {
+                throw new RuntimeException('The loggable listener could not be found');
             }
         }
         return $this->listener;
+
     }
+
 }

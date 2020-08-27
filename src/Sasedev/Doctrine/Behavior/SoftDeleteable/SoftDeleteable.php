@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\SoftDeleteable;
 
 /**
@@ -13,15 +12,17 @@ namespace Sasedev\Doctrine\Behavior\SoftDeleteable;
  */
 interface SoftDeleteable
 {
+
     // this interface is not necessary to implement
 
-    /**
-     * @sasedev:SoftDeleteable
-     * to mark the class as SoftDeleteable use class annotation @sasedev:SoftDeleteable
-     * this object will be able to be soft deleted
-     * example:
-     *
-     * @sasedev:SoftDeleteable
-     * class MyEntity
-     */
+/**
+ *
+ * @sasedev:SoftDeleteable
+ * to mark the class as SoftDeleteable use class annotation @sasedev:SoftDeleteable
+ * this object will be able to be soft deleted
+ * example:
+ *
+ * @sasedev:SoftDeleteable
+ * class MyEntity
+ */
 }

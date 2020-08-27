@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Uploadable\FilenameGenerator;
 
 /**
@@ -12,14 +11,18 @@ namespace Sasedev\Doctrine\Behavior\Uploadable\FilenameGenerator;
  * @author Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
 class FilenameGeneratorAlphanumeric implements FilenameGeneratorInterface
 {
+
     /**
+     *
      * @inheritDoc
      */
     public static function generate($filename, $extension, $object = null)
     {
-        return preg_replace('/[^a-z0-9]+/', '-', strtolower($filename)).$extension;
+
+        return preg_replace('/[^a-z0-9]+/', '-', strtolower($filename)) . $extension;
+
     }
+
 }

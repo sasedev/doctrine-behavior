@@ -3,12 +3,15 @@ namespace Sasedev\Doctrine\Behavior\Tree\Entity\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
+use Sasedev\Doctrine\Behavior\Exception\InvalidMappingException;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper;
 use Sasedev\Doctrine\Behavior\Tree\RepositoryUtils;
 use Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface;
 use Sasedev\Doctrine\Behavior\Tree\RepositoryInterface;
-use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
 use Sasedev\Doctrine\Behavior\Tree\TreeListener;
 
 abstract class AbstractTreeRepository extends EntityRepository implements RepositoryInterface
@@ -54,16 +57,14 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
 
         if (is_null($treeListener))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidMappingException(
-                'Tree listener was not found on your entity manager, it must be hooked into the event manager');
+            throw new InvalidMappingException('Tree listener was not found on your entity manager, it must be hooked into the event manager');
         }
 
         $this->listener = $treeListener;
         if (! $this->validate())
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidMappingException(
-                'This repository cannot be used for tree type: ' . $treeListener->getStrategy($em, $class->name)
-                    ->getName());
+            throw new InvalidMappingException('This repository cannot be used for tree type: ' . $treeListener->getStrategy($em, $class->name)
+                ->getName());
         }
 
         $this->repoUtils = new RepositoryUtils($this->_em, $this->getClassMetadata(), $this->listener, $this);
@@ -72,7 +73,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
 
     /**
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     protected function getQueryBuilder()
     {
@@ -85,7 +86,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
     /**
      * Sets the RepositoryUtilsInterface instance
      *
-     * @param \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface $repoUtils
+     * @param RepositoryUtilsInterface $repoUtils
      *
      * @return static
      */
@@ -101,7 +102,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
     /**
      * Returns the RepositoryUtilsInterface instance
      *
-     * @return \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface|null
+     * @return RepositoryUtilsInterface|null
      */
     public function getRepoUtils()
     {
@@ -159,7 +160,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
 
     /**
      *
-     * @see \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface::childrenHierarchy
+     * @see RepositoryUtilsInterface::childrenHierarchy
      */
     public function childrenHierarchy($node = null, $direct = false, array $options = [], $includeNode = false)
     {
@@ -170,7 +171,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
 
     /**
      *
-     * @see \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface::buildTree
+     * @see RepositoryUtilsInterface::buildTree
      */
     public function buildTree(array $nodes, array $options = [])
     {
@@ -181,7 +182,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
 
     /**
      *
-     * @see \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface::buildTreeArray
+     * @see RepositoryUtilsInterface::buildTreeArray
      */
     public function buildTreeArray(array $nodes)
     {
@@ -192,7 +193,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
 
     /**
      *
-     * @see \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface::setChildrenIndex
+     * @see RepositoryUtilsInterface::setChildrenIndex
      */
     public function setChildrenIndex($childrenIndex)
     {
@@ -203,7 +204,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
 
     /**
      *
-     * @see \Sasedev\Doctrine\Behavior\Tree\RepositoryUtilsInterface::getChildrenIndex
+     * @see RepositoryUtilsInterface::getChildrenIndex
      */
     public function getChildrenIndex()
     {
@@ -228,7 +229,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
      * @param
      *            string - Sort direction ("asc" or "desc")
      *
-     * @return \Doctrine\ORM\QueryBuilder - QueryBuilder object
+     * @return QueryBuilder - QueryBuilder object
      */
     abstract public function getRootNodesQueryBuilder($sortByField = null, $direction = 'asc');
 
@@ -240,7 +241,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
      * @param
      *            string - Sort direction ("asc" or "desc")
      *
-     * @return \Doctrine\ORM\Query - Query object
+     * @return Query - Query object
      */
     abstract public function getRootNodesQuery($sortByField = null, $direction = 'asc');
 
@@ -256,7 +257,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
      * @param boolean $includeNode
      *            - Include node in results?
      *
-     * @return \Doctrine\ORM\QueryBuilder - QueryBuilder object
+     * @return QueryBuilder - QueryBuilder object
      */
     abstract public function getNodesHierarchyQueryBuilder($node = null, $direct = false, array $options = [], $includeNode = false);
 
@@ -272,7 +273,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
      * @param boolean $includeNode
      *            - Include node in results?
      *
-     * @return \Doctrine\ORM\Query - Query object
+     * @return Query - Query object
      */
     abstract public function getNodesHierarchyQuery($node = null, $direct = false, array $options = [], $includeNode = false);
 
@@ -291,7 +292,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
      * @param bool $includeNode
      *            - Include the root node in results?
      *
-     * @return \Doctrine\ORM\QueryBuilder - QueryBuilder object
+     * @return QueryBuilder - QueryBuilder object
      */
     abstract public function getChildrenQueryBuilder($node = null, $direct = false, $sortByField = null, $direction = 'ASC', $includeNode = false);
 
@@ -310,7 +311,7 @@ abstract class AbstractTreeRepository extends EntityRepository implements Reposi
      * @param bool $includeNode
      *            - Include the root node in results?
      *
-     * @return \Doctrine\ORM\Query - Query object
+     * @return Query - Query object
      */
     abstract public function getChildrenQuery($node = null, $direct = false, $sortByField = null, $direction = 'ASC', $includeNode = false);
 

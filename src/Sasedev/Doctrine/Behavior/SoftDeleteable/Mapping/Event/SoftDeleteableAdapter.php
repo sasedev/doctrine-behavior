@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\SoftDeleteable\Mapping\Event;
 
 use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
@@ -13,4 +12,5 @@ use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
  */
 interface SoftDeleteableAdapter extends AdapterInterface
 {
+
 }

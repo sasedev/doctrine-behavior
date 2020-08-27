@@ -104,8 +104,7 @@ class Yaml extends File implements Driver
                 $slug = $fieldMapping['sasedev']['slug'];
                 if (! $this->isValidField($meta, $field))
                 {
-                    throw new InvalidMappingException(
-                        "Cannot use field - [{$field}] for slug storage, type is not valid and must be 'string' or 'text' in class - {$meta->name}");
+                    throw new InvalidMappingException("Cannot use field - [{$field}] for slug storage, type is not valid and must be 'string' or 'text' in class - {$meta->name}");
                 }
                 // process slug handlers
                 $handlers = [];
@@ -134,8 +133,7 @@ class Yaml extends File implements Driver
                     }
                     if (! $this->isValidField($meta, $slugField))
                     {
-                        throw new InvalidMappingException(
-                            "Cannot use field - [{$slugField}] for slug storage, type is not valid and must be 'string' or 'text' in class - {$meta->name}");
+                        throw new InvalidMappingException("Cannot use field - [{$slugField}] for slug storage, type is not valid and must be 'string' or 'text' in class - {$meta->name}");
                     }
                 }
 
@@ -160,8 +158,7 @@ class Yaml extends File implements Driver
 
                 if (! $meta->isMappedSuperclass && $meta->isIdentifier($field) && ! $config['slugs'][$field]['unique'])
                 {
-                    throw new InvalidMappingException(
-                        "Identifier field - [{$field}] slug must be unique in order to maintain primary key in class - {$meta->name}");
+                    throw new InvalidMappingException("Identifier field - [{$field}] slug must be unique in order to maintain primary key in class - {$meta->name}");
                 }
                 $ubase = $config['slugs'][$field]['unique_base'];
                 if ($config['slugs'][$field]['unique'] === false && $ubase)

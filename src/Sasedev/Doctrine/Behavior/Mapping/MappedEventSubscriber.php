@@ -1,10 +1,14 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Mapping;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\EventArgs;
+use Doctrine\Persistence\ObjectManager;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
 use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
 
 /**
@@ -62,7 +66,7 @@ abstract class MappedEventSubscriber implements EventSubscriber
 
     /**
      *
-     * @var \Doctrine\Common\Annotations\AnnotationReader
+     * @var AnnotationReader
      */
     private static $defaultAnnotationReader;
 
@@ -83,14 +87,14 @@ abstract class MappedEventSubscriber implements EventSubscriber
      *
      * @param EventArgs $args
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException - if event is not recognized
+     * @throws InvalidArgumentException - if event is not recognized
      *
-     * @return \Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface
+     * @return AdapterInterface
      */
     protected function getEventAdapter(EventArgs $args)
     {
 
-        $class = \get_class($args);
+        $class = get_class($args);
         if (\preg_match('@Doctrine\\\([^\\\]+)@', $class, $m) && \in_array($m[1], [
             'ODM',
             'ORM'
@@ -111,7 +115,7 @@ abstract class MappedEventSubscriber implements EventSubscriber
         }
         else
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException('Event mapper does not support event arg class: ' . $class);
+            throw new InvalidArgumentException('Event mapper does not support event arg class: ' . $class);
         }
 
     }
@@ -251,17 +255,16 @@ abstract class MappedEventSubscriber implements EventSubscriber
     /**
      * Create default annotation reader for extensions
      *
-     * @return \Doctrine\Common\Annotations\AnnotationReader
+     * @return AnnotationReader
      */
     private function getDefaultAnnotationReader()
     {
 
         if (null === self::$defaultAnnotationReader)
         {
-            $reader = new \Doctrine\Common\Annotations\AnnotationReader();
-            $reader->setAutoloadAnnotations(true);
-            $reader->setAnnotationNamespaceAlias('Sasedev\\Doctrine\\Behavior\\Mapping\\Annotation\\', 'sasedev');
-            $reader->setDefaultAnnotationNamespace('Doctrine\ORM\Mapping\\');
+            $reader = new AnnotationReader();
+            $reader = new CachedReader($reader, new ArrayCache());
+
             self::$defaultAnnotationReader = $reader;
         }
 

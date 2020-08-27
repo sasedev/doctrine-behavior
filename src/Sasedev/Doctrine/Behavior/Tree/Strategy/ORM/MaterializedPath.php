@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Tree\Strategy\ORM;
 
 use Sasedev\Doctrine\Behavior\Tree\Strategy\AbstractMaterializedPath;
@@ -14,11 +13,14 @@ use Sasedev\Doctrine\Behavior\Tool\Wrapper\AbstractWrapper;
  */
 class MaterializedPath extends AbstractMaterializedPath
 {
+
     /**
+     *
      * {@inheritdoc}
      */
     public function removeNode($om, $meta, $config, $node)
     {
+
         $uow = $om->getUnitOfWork();
         $wrapped = AbstractWrapper::wrap($node, $om);
 
@@ -28,39 +30,53 @@ class MaterializedPath extends AbstractMaterializedPath
         $qb = $om->createQueryBuilder();
         $qb->select('e')
             ->from($config['useObjectClass'], 'e')
-            ->where($qb->expr()->like('e.'.$config['path'], $qb->expr()->literal($path.'%')));
+            ->where($qb->expr()
+            ->like('e.' . $config['path'], $qb->expr()
+            ->literal($path . '%')));
 
-        if (isset($config['level'])) {
+        if (isset($config['level']))
+        {
             $lvlField = $config['level'];
             $lvl = $wrapped->getPropertyValue($lvlField);
-            if (!empty($lvl)) {
-                $qb->andWhere($qb->expr()->gt('e.' . $lvlField, $qb->expr()->literal($lvl)));
+            if (! empty($lvl))
+            {
+                $qb->andWhere($qb->expr()
+                    ->gt('e.' . $lvlField, $qb->expr()
+                    ->literal($lvl)));
             }
         }
 
         $results = $qb->getQuery()
             ->execute();
 
-        foreach ($results as $node) {
+        foreach ($results as $node)
+        {
             $uow->scheduleForDelete($node);
         }
+
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getChildren($om, $meta, $config, $path)
     {
+
         $path = addcslashes($path, '%');
         $qb = $om->createQueryBuilder($config['useObjectClass']);
         $qb->select('e')
             ->from($config['useObjectClass'], 'e')
-            ->where($qb->expr()->like('e.'.$config['path'], $qb->expr()->literal($path.'%')))
-            ->andWhere('e.'.$config['path'].' != :path')
-            ->orderBy('e.'.$config['path'], 'asc');      // This may save some calls to updateNode
+            ->where($qb->expr()
+            ->like('e.' . $config['path'], $qb->expr()
+            ->literal($path . '%')))
+            ->andWhere('e.' . $config['path'] . ' != :path')
+            ->orderBy('e.' . $config['path'], 'asc'); // This may save some calls to updateNode
         $qb->setParameter('path', $path);
 
         return $qb->getQuery()
             ->execute();
+
     }
+
 }

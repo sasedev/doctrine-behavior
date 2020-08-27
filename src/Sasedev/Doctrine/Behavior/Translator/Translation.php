@@ -1,18 +1,21 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Translator;
 
 /**
  * Base translation class.
  *
- * @author  Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 abstract class Translation implements TranslationInterface
 {
+
     protected $translatable;
+
     protected $locale;
+
     protected $property;
+
     protected $value;
 
     /**
@@ -22,7 +25,9 @@ abstract class Translation implements TranslationInterface
      */
     public function setTranslatable($translatable)
     {
+
         $this->translatable = $translatable;
+
     }
 
     /**
@@ -32,7 +37,9 @@ abstract class Translation implements TranslationInterface
      */
     public function getTranslatable()
     {
+
         return $this->translatable;
+
     }
 
     /**
@@ -42,7 +49,9 @@ abstract class Translation implements TranslationInterface
      */
     public function setLocale($locale)
     {
+
         $this->locale = $locale;
+
     }
 
     /**
@@ -52,7 +61,9 @@ abstract class Translation implements TranslationInterface
      */
     public function getLocale()
     {
+
         return $this->locale;
+
     }
 
     /**
@@ -62,7 +73,9 @@ abstract class Translation implements TranslationInterface
      */
     public function setProperty($property)
     {
+
         $this->property = $property;
+
     }
 
     /**
@@ -72,7 +85,9 @@ abstract class Translation implements TranslationInterface
      */
     public function getProperty()
     {
+
         return $this->property;
+
     }
 
     /**
@@ -84,9 +99,11 @@ abstract class Translation implements TranslationInterface
      */
     public function setValue($value)
     {
+
         $this->value = $value;
 
         return $this;
+
     }
 
     /**
@@ -96,6 +113,9 @@ abstract class Translation implements TranslationInterface
      */
     public function getValue()
     {
+
         return $this->value;
+
     }
+
 }

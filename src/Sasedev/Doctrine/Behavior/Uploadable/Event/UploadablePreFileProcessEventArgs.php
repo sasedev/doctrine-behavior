@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Uploadable\Event;
 
 /**
@@ -9,7 +8,7 @@ namespace Sasedev\Doctrine\Behavior\Uploadable\Event;
  * @author Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
 class UploadablePreFileProcessEventArgs extends UploadableBaseEventArgs
 {
+
 }

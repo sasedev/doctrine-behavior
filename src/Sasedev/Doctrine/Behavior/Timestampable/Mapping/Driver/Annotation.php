@@ -50,30 +50,39 @@ class Annotation extends AbstractAnnotationDriver
 
         $class = $this->getMetaReflectionClass($meta);
         // property annotations
-        foreach ($class->getProperties() as $property) {
-            if ($meta->isMappedSuperclass && ! $property->isPrivate() || $meta->isInheritedField($property->name) || isset($meta->associationMappings[$property->name]['inherited'])) {
+        foreach ($class->getProperties() as $property)
+        {
+            if ($meta->isMappedSuperclass && ! $property->isPrivate() || $meta->isInheritedField($property->name) || isset($meta->associationMappings[$property->name]['inherited']))
+            {
                 continue;
             }
-            if ($timestampable = $this->reader->getPropertyAnnotation($property, self::TIMESTAMPABLE)) {
+            if ($timestampable = $this->reader->getPropertyAnnotation($property, self::TIMESTAMPABLE))
+            {
                 $field = $property->getName();
-                if (! $meta->hasField($field)) {
+                if (! $meta->hasField($field))
+                {
                     throw new InvalidMappingException("Unable to find timestampable [{$field}] as mapped property in entity - {$meta->name}");
                 }
-                if (! $this->isValidField($meta, $field)) {
+                if (! $this->isValidField($meta, $field))
+                {
                     throw new InvalidMappingException("Field - [{$field}] type is not valid and must be 'date', 'datetime' or 'time' in class - {$meta->name}");
                 }
                 if (! \in_array($timestampable->on, [
                     'update',
                     'create',
                     'change'
-                ])) {
+                ]))
+                {
                     throw new InvalidMappingException("Field - [{$field}] trigger 'on' is not one of [update, create, change] in class - {$meta->name}");
                 }
-                if ($timestampable->on == 'change') {
-                    if (! isset($timestampable->field)) {
+                if ($timestampable->on == 'change')
+                {
+                    if (! isset($timestampable->field))
+                    {
                         throw new InvalidMappingException("Missing parameters on property - {$field}, field must be set on [change] trigger in class - {$meta->name}");
                     }
-                    if (is_array($timestampable->field) && isset($timestampable->value)) {
+                    if (is_array($timestampable->field) && isset($timestampable->value))
+                    {
                         throw new InvalidMappingException("Timestampable extension does not support multiple value changeset detection yet.");
                     }
                     $field = [

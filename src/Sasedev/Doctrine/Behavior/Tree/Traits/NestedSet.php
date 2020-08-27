@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Tree\Traits;
 
 /**
@@ -12,21 +11,25 @@ trait NestedSet
 {
 
     /**
+     *
      * @var integer
      */
     private $root;
 
     /**
+     *
      * @var integer
      */
     private $level;
 
     /**
+     *
      * @var integer
      */
     private $left;
 
     /**
+     *
      * @var integer
      */
     private $right;

@@ -1,14 +1,17 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Translatable\Entity\Repository;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Sasedev\Doctrine\Behavior\Translatable\TranslatableListener;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper;
-use Sasedev\Doctrine\Behavior\Translatable\Mapping\Event\Adapter\ORM as TranslatableAdapterORM;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Query;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
+use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
+use Sasedev\Doctrine\Behavior\Translatable\Mapping\Event\Adapter\ORM as TranslatableAdapterORM;
+use Sasedev\Doctrine\Behavior\Translatable\TranslatableListener;
+use Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper;
 
 /**
  * The TranslationRepository has some useful functions
@@ -38,7 +41,7 @@ class TranslationRepository extends EntityRepository
         if ($class->getReflectionClass()
             ->isSubclassOf('Sasedev\Doctrine\Behavior\Translatable\Entity\MappedSuperclass\AbstractPersonalTranslation'))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException('This repository is useless for personal translations');
+            throw new UnexpectedValueException('This repository is useless for personal translations');
         }
         parent::__construct($em, $class);
 
@@ -53,7 +56,7 @@ class TranslationRepository extends EntityRepository
      * @param string $locale
      * @param mixed $value
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return static
      */
@@ -65,7 +68,7 @@ class TranslationRepository extends EntityRepository
         $config = $listener->getConfiguration($this->_em, $meta->name);
         if (! isset($config['fields']) || ! \in_array($field, $config['fields']))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException("Entity: {$meta->name} does not translate field - {$field}");
+            throw new InvalidArgumentException("Entity: {$meta->name} does not translate field - {$field}");
         }
         $needsPersist = true;
         if ($locale === $listener->getTranslatableLocale($entity, $meta, $this->getEntityManager()))
@@ -102,8 +105,7 @@ class TranslationRepository extends EntityRepository
                 $transMeta->getReflectionProperty('locale')
                     ->setValue($trans, $locale);
             }
-            if ($listener->getDefaultLocale() != $listener->getTranslatableLocale($entity, $meta, $this->getEntityManager()) &&
-                $locale === $listener->getDefaultLocale())
+            if ($listener->getDefaultLocale() != $listener->getTranslatableLocale($entity, $meta, $this->getEntityManager()) && $locale === $listener->getDefaultLocale())
             {
                 $listener->setTranslationInDefaultLocale(spl_object_hash($entity), $field, $trans);
                 $needsPersist = $listener->getPersistDefaultLocaleTranslation();
@@ -265,7 +267,7 @@ class TranslationRepository extends EntityRepository
     /**
      * Get the currently used TranslatableListener
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\RuntimeException - if listener is not found
+     * @throws RuntimeException - if listener is not found
      *
      * @return TranslatableListener
      */
@@ -288,7 +290,7 @@ class TranslationRepository extends EntityRepository
                 }
             }
 
-            throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException('The translation listener could not be found');
+            throw new RuntimeException('The translation listener could not be found');
         }
 
         return $this->listener;

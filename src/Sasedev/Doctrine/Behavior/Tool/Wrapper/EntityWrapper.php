@@ -2,7 +2,7 @@
 namespace Sasedev\Doctrine\Behavior\Tool\Wrapper;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Proxy\Proxy;
+use ProxyManager\Proxy\GhostObjectInterface as Proxy;
 
 /**
  * Wraps entity or proxy for more convenient
@@ -32,7 +32,7 @@ class EntityWrapper extends AbstractWrapper
      * Wrap entity
      *
      * @param object $entity
-     * @param \Doctrine\ORM\EntityManagerInterface $em
+     * @param EntityManagerInterface $em
      */
     public function __construct($entity, EntityManagerInterface $em)
     {

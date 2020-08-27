@@ -4,8 +4,10 @@ namespace Sasedev\Doctrine\Behavior\Translatable;
 use Doctrine\Common\EventArgs;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\ORMInvalidArgumentException;
-use Sasedev\Doctrine\Behavior\Tool\Wrapper\AbstractWrapper;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
 use Sasedev\Doctrine\Behavior\Mapping\MappedEventSubscriber;
+use Sasedev\Doctrine\Behavior\Tool\Wrapper\AbstractWrapper;
 use Sasedev\Doctrine\Behavior\Translatable\Mapping\Event\TranslatableAdapter;
 
 /**
@@ -321,7 +323,7 @@ class TranslatableListener extends MappedEventSubscriber
      * @param object $meta
      * @param object $om
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\RuntimeException - if language or locale property is not
+     * @throws RuntimeException - if language or locale property is not
      *         found in entity
      * @return string
      */
@@ -337,8 +339,7 @@ class TranslatableListener extends MappedEventSubscriber
             if (! $reflectionProperty)
             {
                 $column = self::$configurations[$this->name][$meta->name]['locale'];
-                throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException(
-                    "There is no locale or language property ({$column}) found on object: {$meta->name}");
+                throw new RuntimeException("There is no locale or language property ({$column}) found on object: {$meta->name}");
             }
             $reflectionProperty->setAccessible(true);
             $value = $reflectionProperty->getValue($object);
@@ -547,8 +548,7 @@ class TranslatableListener extends MappedEventSubscriber
                     }
                 }
                 // update translation
-                if ($is_translated || (! $this->translationFallback && (! isset($config['fallback'][$field]) || ! $config['fallback'][$field])) ||
-                    ($this->translationFallback && isset($config['fallback'][$field]) && ! $config['fallback'][$field]))
+                if ($is_translated || (! $this->translationFallback && (! isset($config['fallback'][$field]) || ! $config['fallback'][$field])) || ($this->translationFallback && isset($config['fallback'][$field]) && ! $config['fallback'][$field]))
                 {
                     $ea->setTranslationValue($object, $field, $translated);
                     // ensure clean changeset
@@ -577,15 +577,14 @@ class TranslatableListener extends MappedEventSubscriber
      * @param string $locale
      *            - locale to validate
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException if locale is not valid
+     * @throws InvalidArgumentException if locale is not valid
      */
     protected function validateLocale($locale)
     {
 
         if (! $this->isValidLocale($locale))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException(
-                'Locale or language cannot be empty and must be set through Listener or Entity');
+            throw new InvalidArgumentException('Locale or language cannot be empty and must be set through Listener or Entity');
         }
 
     }
@@ -647,8 +646,7 @@ class TranslatableListener extends MappedEventSubscriber
             $translation = null;
             foreach ($ea->getScheduledObjectInsertions($uow) as $trans)
             {
-                if ($locale !== $this->defaultLocale && get_class($trans) === $translationClass && $trans->getLocale() === $this->defaultLocale &&
-                    $trans->getField() === $field && $this->belongsToObject($ea, $trans, $object))
+                if ($locale !== $this->defaultLocale && get_class($trans) === $translationClass && $trans->getLocale() === $this->defaultLocale && $trans->getField() === $field && $this->belongsToObject($ea, $trans, $object))
                 {
                     $this->setTranslationInDefaultLocale($oid, $field, $trans);
                     break;
@@ -711,8 +709,7 @@ class TranslatableListener extends MappedEventSubscriber
                 $translation->setContent($content);
                 // check if need to update in database
                 $transWrapper = AbstractWrapper::wrap($translation, $om);
-                if (((is_null($content) && ! $isInsert) || is_bool($content) || is_int($content) || is_string($content) || ! empty($content)) &&
-                    ($isInsert || ! $transWrapper->getIdentifier() || isset($changeSet[$field])))
+                if (((is_null($content) && ! $isInsert) || is_bool($content) || is_int($content) || is_string($content) || ! empty($content)) && ($isInsert || ! $transWrapper->getIdentifier() || isset($changeSet[$field])))
                 {
                     if ($isInsert && ! $objectId && ! $ea->usesPersonalTranslation($translationClass))
                     {

@@ -6,7 +6,9 @@ use Doctrine\Persistence\Mapping\Driver\SymfonyFileLocator;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\Persistence\ObjectManager;
+// use Doctrine\Common\Version as CommonLibVer;
 use Sasedev\Doctrine\Behavior\Mapping\Driver\File as FileDriver;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
 use Sasedev\Doctrine\Behavior\Mapping\Driver\AnnotationDriverInterface;
 
 /**
@@ -22,7 +24,7 @@ class ExtensionMetadataFactory
     /**
      * Extension driver
      *
-     * @var \Sasedev\Doctrine\Behavior\Mapping\Driver
+     * @var Driver
      */
     protected $driver;
 
@@ -137,14 +139,14 @@ class ExtensionMetadataFactory
      * read the metadata required by extension
      *
      * @param object $omDriver
-     * @throws \Sasedev\Doctrine\Behavior\Exception\RuntimeException if driver was not found in extension
-     * @return \Sasedev\Doctrine\Behavior\Mapping\Driver
+     * @throws RuntimeException if driver was not found in extension
+     * @return Driver
      */
     protected function getDriver($omDriver)
     {
 
         $driver = null;
-        $className = \get_class($omDriver);
+        $className = get_class($omDriver);
         $driverName = substr($className, strrpos($className, '\\') + 1);
         if ($omDriver instanceof MappingDriverChain || $driverName == 'DriverChain')
         {
@@ -153,7 +155,10 @@ class ExtensionMetadataFactory
             {
                 $driver->addDriver($this->getDriver($nestedOmDriver), $namespace);
             }
-            $driver->setDefaultDriver($this->getDriver($omDriver->getDefaultDriver()));
+            if ($omDriver->getDefaultDriver() !== null)
+            {
+                $driver->setDefaultDriver($this->getDriver($omDriver->getDefaultDriver()));
+            }
         }
         else
         {
@@ -172,7 +177,7 @@ class ExtensionMetadataFactory
                 $driverClassName = $this->extensionNamespace . '\Mapping\Driver\Annotation';
                 if (! class_exists($driverClassName))
                 {
-                    throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException("Failed to fallback to annotation driver: ({$driverClassName}), extension driver was not found.");
+                    throw new RuntimeException("Failed to fallback to annotation driver: ({$driverClassName}), extension driver was not found.");
                 }
             }
             $driver = new $driverClassName();

@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Loggable\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -21,7 +20,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class LogEntry extends MappedSuperclass\AbstractLogEntry
 {
-    /**
-     * All required columns are mapped through inherited superclass
-     */
+
+/**
+ * All required columns are mapped through inherited superclass
+ */
 }

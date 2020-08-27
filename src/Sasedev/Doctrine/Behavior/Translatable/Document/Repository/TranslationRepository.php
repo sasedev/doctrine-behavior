@@ -1,14 +1,18 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Translatable\Document\Repository;
 
-use Sasedev\Doctrine\Behavior\Translatable\TranslatableListener;
-use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
-use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\UnitOfWork;
+use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
+use Doctrine\ODM\MongoDB\Types\Type;
+use Doctrine\ODM\MongoDB\UnitOfWork;
+use Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException;
+use Sasedev\Doctrine\Behavior\Exception\RuntimeException;
+use Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\MongoDocumentWrapper;
 use Sasedev\Doctrine\Behavior\Translatable\Mapping\Event\Adapter\ODM as TranslatableAdapterODM;
+use Sasedev\Doctrine\Behavior\Translatable\TranslatableListener;
 
 /**
  * The TranslationRepository has some useful functions
@@ -38,7 +42,7 @@ class TranslationRepository extends DocumentRepository
         if ($class->getReflectionClass()
             ->isSubclassOf('Sasedev\Doctrine\Behavior\Translatable\Document\MappedSuperclass\AbstractPersonalTranslation'))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\UnexpectedValueException('This repository is useless for personal translations');
+            throw new UnexpectedValueException('This repository is useless for personal translations');
         }
         parent::__construct($dm, $uow, $class);
 
@@ -63,10 +67,9 @@ class TranslationRepository extends DocumentRepository
         $config = $listener->getConfiguration($this->dm, $meta->name);
         if (! isset($config['fields']) || ! \in_array($field, $config['fields']))
         {
-            throw new \Sasedev\Doctrine\Behavior\Exception\InvalidArgumentException("Document: {$meta->name} does not translate field - {$field}");
+            throw new InvalidArgumentException("Document: {$meta->name} does not translate field - {$field}");
         }
-        $modRecordValue = (! $listener->getPersistDefaultLocaleTranslation() && $locale === $listener->getDefaultLocale()) ||
-            $listener->getTranslatableLocale($document, $meta, $this->getDocumentManager()) === $locale;
+        $modRecordValue = (! $listener->getPersistDefaultLocaleTranslation() && $locale === $listener->getDefaultLocale()) || $listener->getTranslatableLocale($document, $meta, $this->getDocumentManager()) === $locale;
         if ($modRecordValue)
         {
             $meta->getReflectionProperty($field)
@@ -275,7 +278,7 @@ class TranslationRepository extends DocumentRepository
     /**
      * Get the currently used TranslatableListener
      *
-     * @throws \Sasedev\Doctrine\Behavior\Exception\RuntimeException - if listener is not found
+     * @throws RuntimeException - if listener is not found
      *
      * @return TranslatableListener
      */
@@ -298,7 +301,7 @@ class TranslationRepository extends DocumentRepository
                 }
             }
 
-            throw new \Sasedev\Doctrine\Behavior\Exception\RuntimeException('The translation listener could not be found');
+            throw new RuntimeException('The translation listener could not be found');
         }
 
         return $this->listener;
@@ -308,10 +311,7 @@ class TranslationRepository extends DocumentRepository
     private function getType($type)
     {
 
-        // due to change in ODM beta 9
-        // return class_exists('Doctrine\ODM\MongoDB\Types\Type') ? \Doctrine\ODM\MongoDB\Types\Type::getType($type) :
-        // \Doctrine\ODM\MongoDB\Mapping\Types\Type::getType($type);
-        return \Doctrine\ODM\MongoDB\Types\Type::getType($type);
+        return Type::getType($type);
 
     }
 

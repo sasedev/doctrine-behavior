@@ -19,13 +19,13 @@ class ODM implements AdapterInterface
 
     /**
      *
-     * @var \Doctrine\Common\EventArgs
+     * @var EventArgs
      */
     private $args;
 
     /**
      *
-     * @var \Doctrine\ODM\MongoDB\DocumentManager
+     * @var DocumentManager
      */
     private $dm;
 
@@ -76,7 +76,7 @@ class ODM implements AdapterInterface
     /**
      * Set the document manager
      *
-     * @param \Doctrine\ODM\MongoDB\DocumentManager $dm
+     * @param DocumentManager $dm
      */
     public function setDocumentManager(DocumentManager $dm)
     {
@@ -92,7 +92,8 @@ class ODM implements AdapterInterface
     public function getObjectManager()
     {
 
-        if (! is_null($this->dm)) {
+        if (! is_null($this->dm))
+        {
             return $this->dm;
         }
 
@@ -118,7 +119,8 @@ class ODM implements AdapterInterface
     public function __call($method, $args)
     {
 
-        if (is_null($this->args)) {
+        if (is_null($this->args))
+        {
             throw new RuntimeException("Event args must be set before calling its methods");
         }
         $method = str_replace('Object', $this->getDomainObjectName(), $method);
@@ -225,9 +227,9 @@ class ODM implements AdapterInterface
      * Creates a ODM specific LifecycleEventArgs.
      *
      * @param object $document
-     * @param \Doctrine\ODM\MongoDB\DocumentManager $documentManager
+     * @param DocumentManager $documentManager
      *
-     * @return \Doctrine\ODM\MongoDB\Event\LifecycleEventArgs
+     * @return LifecycleEventArgs
      */
     public function createLifecycleEventArgsInstance($document, $documentManager)
     {

@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Loggable\Entity\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class AbstractLogEntry
 {
+
     /**
+     *
      * @var integer $id
      *
      * @ORM\Column(type="integer")
@@ -21,6 +22,7 @@ abstract class AbstractLogEntry
     protected $id;
 
     /**
+     *
      * @var string $action
      *
      * @ORM\Column(type="string", length=8)
@@ -28,6 +30,7 @@ abstract class AbstractLogEntry
     protected $action;
 
     /**
+     *
      * @var \DateTime $loggedAt
      *
      * @ORM\Column(name="logged_at", type="datetime")
@@ -35,6 +38,7 @@ abstract class AbstractLogEntry
     protected $loggedAt;
 
     /**
+     *
      * @var string $objectId
      *
      * @ORM\Column(name="object_id", length=64, nullable=true)
@@ -42,6 +46,7 @@ abstract class AbstractLogEntry
     protected $objectId;
 
     /**
+     *
      * @var string $objectClass
      *
      * @ORM\Column(name="object_class", type="string", length=255)
@@ -49,6 +54,7 @@ abstract class AbstractLogEntry
     protected $objectClass;
 
     /**
+     *
      * @var integer $version
      *
      * @ORM\Column(type="integer")
@@ -56,6 +62,7 @@ abstract class AbstractLogEntry
     protected $version;
 
     /**
+     *
      * @var array $data
      *
      * @ORM\Column(type="array", nullable=true)
@@ -63,6 +70,7 @@ abstract class AbstractLogEntry
     protected $data;
 
     /**
+     *
      * @var string $data
      *
      * @ORM\Column(length=255, nullable=true)
@@ -76,7 +84,9 @@ abstract class AbstractLogEntry
      */
     public function getId()
     {
+
         return $this->id;
+
     }
 
     /**
@@ -86,7 +96,9 @@ abstract class AbstractLogEntry
      */
     public function getAction()
     {
+
         return $this->action;
+
     }
 
     /**
@@ -96,7 +108,9 @@ abstract class AbstractLogEntry
      */
     public function setAction($action)
     {
+
         $this->action = $action;
+
     }
 
     /**
@@ -106,7 +120,9 @@ abstract class AbstractLogEntry
      */
     public function getObjectClass()
     {
+
         return $this->objectClass;
+
     }
 
     /**
@@ -116,7 +132,9 @@ abstract class AbstractLogEntry
      */
     public function setObjectClass($objectClass)
     {
+
         $this->objectClass = $objectClass;
+
     }
 
     /**
@@ -126,7 +144,9 @@ abstract class AbstractLogEntry
      */
     public function getObjectId()
     {
+
         return $this->objectId;
+
     }
 
     /**
@@ -136,7 +156,9 @@ abstract class AbstractLogEntry
      */
     public function setObjectId($objectId)
     {
+
         $this->objectId = $objectId;
+
     }
 
     /**
@@ -146,7 +168,9 @@ abstract class AbstractLogEntry
      */
     public function getUsername()
     {
+
         return $this->username;
+
     }
 
     /**
@@ -156,7 +180,9 @@ abstract class AbstractLogEntry
      */
     public function setUsername($username)
     {
+
         $this->username = $username;
+
     }
 
     /**
@@ -166,7 +192,9 @@ abstract class AbstractLogEntry
      */
     public function getLoggedAt()
     {
+
         return $this->loggedAt;
+
     }
 
     /**
@@ -174,7 +202,9 @@ abstract class AbstractLogEntry
      */
     public function setLoggedAt()
     {
+
         $this->loggedAt = new \DateTime();
+
     }
 
     /**
@@ -184,7 +214,9 @@ abstract class AbstractLogEntry
      */
     public function getData()
     {
+
         return $this->data;
+
     }
 
     /**
@@ -194,7 +226,9 @@ abstract class AbstractLogEntry
      */
     public function setData($data)
     {
+
         $this->data = $data;
+
     }
 
     /**
@@ -204,7 +238,9 @@ abstract class AbstractLogEntry
      */
     public function setVersion($version)
     {
+
         $this->version = $version;
+
     }
 
     /**
@@ -214,6 +250,9 @@ abstract class AbstractLogEntry
      */
     public function getVersion()
     {
+
         return $this->version;
+
     }
+
 }

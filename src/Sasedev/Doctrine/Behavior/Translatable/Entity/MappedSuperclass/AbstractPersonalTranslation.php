@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Translatable\Entity\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class AbstractPersonalTranslation
 {
+
     /**
+     *
      * @var integer $id
      *
      * @ORM\Column(type="integer")
@@ -21,6 +22,7 @@ abstract class AbstractPersonalTranslation
     protected $id;
 
     /**
+     *
      * @var string $locale
      *
      * @ORM\Column(type="string", length=8)
@@ -28,6 +30,7 @@ abstract class AbstractPersonalTranslation
     protected $locale;
 
     /**
+     *
      * @var string $field
      *
      * @ORM\Column(type="string", length=32)
@@ -41,6 +44,7 @@ abstract class AbstractPersonalTranslation
     protected $object;
 
     /**
+     *
      * @var string $content
      *
      * @ORM\Column(type="text", nullable=true)
@@ -54,7 +58,9 @@ abstract class AbstractPersonalTranslation
      */
     public function getId()
     {
+
         return $this->id;
+
     }
 
     /**
@@ -66,9 +72,11 @@ abstract class AbstractPersonalTranslation
      */
     public function setLocale($locale)
     {
+
         $this->locale = $locale;
 
         return $this;
+
     }
 
     /**
@@ -78,7 +86,9 @@ abstract class AbstractPersonalTranslation
      */
     public function getLocale()
     {
+
         return $this->locale;
+
     }
 
     /**
@@ -90,9 +100,11 @@ abstract class AbstractPersonalTranslation
      */
     public function setField($field)
     {
+
         $this->field = $field;
 
         return $this;
+
     }
 
     /**
@@ -102,7 +114,9 @@ abstract class AbstractPersonalTranslation
      */
     public function getField()
     {
+
         return $this->field;
+
     }
 
     /**
@@ -114,9 +128,11 @@ abstract class AbstractPersonalTranslation
      */
     public function setObject($object)
     {
+
         $this->object = $object;
 
         return $this;
+
     }
 
     /**
@@ -126,7 +142,9 @@ abstract class AbstractPersonalTranslation
      */
     public function getObject()
     {
+
         return $this->object;
+
     }
 
     /**
@@ -138,9 +156,11 @@ abstract class AbstractPersonalTranslation
      */
     public function setContent($content)
     {
+
         $this->content = $content;
 
         return $this;
+
     }
 
     /**
@@ -150,6 +170,9 @@ abstract class AbstractPersonalTranslation
      */
     public function getContent()
     {
+
         return $this->content;
+
     }
+
 }

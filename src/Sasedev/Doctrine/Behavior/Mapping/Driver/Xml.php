@@ -68,8 +68,7 @@ abstract class Xml extends File
         {
             return false;
         }
-        throw new InvalidMappingException(
-            sprintf("Attribute %s must have a valid boolean value, '%s' found", $attributeName, $this->_getAttribute($node, $attributeName)));
+        throw new InvalidMappingException(sprintf("Attribute %s must have a valid boolean value, '%s' found", $attributeName, $this->_getAttribute($node, $attributeName)));
 
     }
 

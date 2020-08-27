@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Timestampable\Mapping\Event;
 
 use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
@@ -13,6 +12,7 @@ use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
  */
 interface TimestampableAdapter extends AdapterInterface
 {
+
     /**
      * Get the date value
      *
@@ -22,4 +22,5 @@ interface TimestampableAdapter extends AdapterInterface
      * @return mixed
      */
     public function getDateValue($meta, $field);
+
 }

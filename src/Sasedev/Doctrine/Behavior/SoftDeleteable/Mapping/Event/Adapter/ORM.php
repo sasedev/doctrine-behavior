@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\SoftDeleteable\Mapping\Event\Adapter;
 
 use Sasedev\Doctrine\Behavior\Mapping\Event\Adapter\ORM as BaseAdapterORM;
@@ -14,4 +13,5 @@ use Sasedev\Doctrine\Behavior\SoftDeleteable\Mapping\Event\SoftDeleteableAdapter
  */
 final class ORM extends BaseAdapterORM implements SoftDeleteableAdapter
 {
+
 }

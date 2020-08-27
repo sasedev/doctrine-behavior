@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Loggable\Mapping\Event;
 
 use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
@@ -13,6 +12,7 @@ use Sasedev\Doctrine\Behavior\Mapping\Event\AdapterInterface;
  */
 interface LoggableAdapter extends AdapterInterface
 {
+
     /**
      * Get default LogEntry class used to store the logs
      *
@@ -36,4 +36,5 @@ interface LoggableAdapter extends AdapterInterface
      * @return integer
      */
     public function getNewVersion($meta, $object);
+
 }

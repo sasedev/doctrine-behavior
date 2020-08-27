@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Translatable\Entity;
 
 use Doctrine\ORM\Mapping\Table;
@@ -24,7 +23,8 @@ use Doctrine\ORM\Mapping\Entity;
  */
 class Translation extends MappedSuperclass\AbstractTranslation
 {
-    /**
-     * All required columns are mapped through inherited superclass
-     */
+
+/**
+ * All required columns are mapped through inherited superclass
+ */
 }

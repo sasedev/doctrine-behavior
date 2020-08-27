@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Tree;
 
 /**
@@ -12,28 +11,33 @@ namespace Sasedev\Doctrine\Behavior\Tree;
  */
 interface Node
 {
+
     // use now annotations instead of predefined methods, this interface is not necessary
 
-    /**
-     * @sasedev:TreeLeft
-     * to mark the field as "tree left" use property annotation @sasedev:TreeLeft
-     * it will use this field to store tree left value
-     */
+/**
+ *
+ * @sasedev:TreeLeft
+ * to mark the field as "tree left" use property annotation @sasedev:TreeLeft
+ * it will use this field to store tree left value
+ */
 
-    /**
-     * @sasedev:TreeRight
-     * to mark the field as "tree right" use property annotation @sasedev:TreeRight
-     * it will use this field to store tree right value
-     */
+/**
+ *
+ * @sasedev:TreeRight
+ * to mark the field as "tree right" use property annotation @sasedev:TreeRight
+ * it will use this field to store tree right value
+ */
 
-    /**
-     * @sasedev:TreeParent
-     * in every tree there should be link to parent. To identify a relation
-     * as parent relation to child use @Tree:Ancestor annotation on the related property
-     */
+/**
+ *
+ * @sasedev:TreeParent
+ * in every tree there should be link to parent. To identify a relation
+ * as parent relation to child use @Tree:Ancestor annotation on the related property
+ */
 
-    /**
-     * @sasedev:TreeLevel
-     * level of node.
-     */
+/**
+ *
+ * @sasedev:TreeLevel
+ * level of node.
+ */
 }

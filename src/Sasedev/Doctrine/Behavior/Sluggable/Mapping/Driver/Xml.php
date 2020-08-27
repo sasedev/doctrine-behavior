@@ -83,8 +83,7 @@ class Xml extends BaseXml
             $slug = $mapping->slug;
             if (! $this->isValidField($meta, $field))
             {
-                throw new InvalidMappingException(
-                    "Cannot use field - [{$field}] for slug storage, type is not valid and must be 'string' in class - {$meta->name}");
+                throw new InvalidMappingException("Cannot use field - [{$field}] for slug storage, type is not valid and must be 'string' in class - {$meta->name}");
             }
             $fields = array_map('trim', explode(',', (string) $this->_getAttribute($slug, 'fields')));
             foreach ($fields as $slugField)
@@ -95,8 +94,7 @@ class Xml extends BaseXml
                 }
                 if (! $this->isValidField($meta, $slugField))
                 {
-                    throw new InvalidMappingException(
-                        "Cannot use field - [{$slugField}] for slug storage, type is not valid and must be 'string' or 'text' in class - {$meta->name}");
+                    throw new InvalidMappingException("Cannot use field - [{$slugField}] for slug storage, type is not valid and must be 'string' or 'text' in class - {$meta->name}");
                 }
             }
 

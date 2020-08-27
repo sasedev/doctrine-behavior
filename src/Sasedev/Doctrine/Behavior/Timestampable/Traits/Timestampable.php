@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Timestampable\Traits;
 
 /**
@@ -10,12 +9,15 @@ namespace Sasedev\Doctrine\Behavior\Timestampable\Traits;
  */
 trait Timestampable
 {
+
     /**
+     *
      * @var \DateTime
      */
     protected $createdAt;
 
     /**
+     *
      * @var \DateTime
      */
     protected $updatedAt;
@@ -23,14 +25,16 @@ trait Timestampable
     /**
      * Sets createdAt.
      *
-     * @param  \DateTime $createdAt
+     * @param \DateTime $createdAt
      * @return $this
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
+
         $this->createdAt = $createdAt;
 
         return $this;
+
     }
 
     /**
@@ -40,20 +44,24 @@ trait Timestampable
      */
     public function getCreatedAt()
     {
+
         return $this->createdAt;
+
     }
 
     /**
      * Sets updatedAt.
      *
-     * @param  \DateTime $updatedAt
+     * @param \DateTime $updatedAt
      * @return $this
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {
+
         $this->updatedAt = $updatedAt;
 
         return $this;
+
     }
 
     /**
@@ -63,6 +71,9 @@ trait Timestampable
      */
     public function getUpdatedAt()
     {
+
         return $this->updatedAt;
+
     }
+
 }

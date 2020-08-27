@@ -2,6 +2,7 @@
 namespace Sasedev\Doctrine\Behavior\Uploadable\Mapping;
 
 use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as ODMClassMetadata;
 use Sasedev\Doctrine\Behavior\Exception\InvalidMappingException;
 use Sasedev\Doctrine\Behavior\Exception\UploadableCantWriteException;
 use Sasedev\Doctrine\Behavior\Exception\UploadableInvalidPathException;
@@ -116,7 +117,7 @@ class Validator
     public static function validateFileSizeField(ClassMetadata $meta, $field)
     {
 
-        if ($meta instanceof \Doctrine\ODM\MongoDB\Mapping\ClassMetadata)
+        if ($meta instanceof ODMClassMetadata)
         {
             self::validateField($meta, $field, self::UPLOADABLE_FILE_SIZE, self::$validFileSizeTypesODM);
         }

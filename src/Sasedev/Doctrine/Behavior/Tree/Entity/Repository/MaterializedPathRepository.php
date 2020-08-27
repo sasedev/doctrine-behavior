@@ -1,6 +1,8 @@
 <?php
 namespace Sasedev\Doctrine\Behavior\Tree\Entity\Repository;
 
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Sasedev\Doctrine\Behavior\Tree\Strategy;
 use Sasedev\Doctrine\Behavior\Tool\Wrapper\EntityWrapper;
 
@@ -22,7 +24,7 @@ class MaterializedPathRepository extends AbstractTreeRepository
      *
      * @param object $rootNode
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     public function getTreeQueryBuilder($rootNode = null)
     {
@@ -36,7 +38,7 @@ class MaterializedPathRepository extends AbstractTreeRepository
      *
      * @param object $rootNode
      *
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function getTreeQuery($rootNode = null)
     {
@@ -101,7 +103,7 @@ class MaterializedPathRepository extends AbstractTreeRepository
      *
      * @param object $node
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     public function getPathQueryBuilder($node)
     {
@@ -153,7 +155,7 @@ class MaterializedPathRepository extends AbstractTreeRepository
      *
      * @param object $node
      *
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function getPathQuery($node)
     {
@@ -202,10 +204,9 @@ class MaterializedPathRepository extends AbstractTreeRepository
             $nodePath = $node->getPropertyValue($path);
             $expr = $qb->expr()
                 ->andx()
-                ->add(
-                $qb->expr()
-                    ->like($alias . '.' . $path, $qb->expr()
-                    ->literal($nodePath . ($config['path_ends_with_separator'] ? '' : $separator) . '%')));
+                ->add($qb->expr()
+                ->like($alias . '.' . $path, $qb->expr()
+                ->literal($nodePath . ($config['path_ends_with_separator'] ? '' : $separator) . '%')));
 
             if ($includeNode)
             {
@@ -222,26 +223,20 @@ class MaterializedPathRepository extends AbstractTreeRepository
 
             if ($direct)
             {
-                $expr->add(
-                    $qb->expr()
-                        ->orx($qb->expr()
-                        ->eq($alias . '.' . $config['level'], $qb->expr()
-                        ->literal($node->getPropertyValue($config['level']))),
-                        $qb->expr()
-                            ->eq($alias . '.' . $config['level'], $qb->expr()
-                            ->literal($node->getPropertyValue($config['level']) + 1))));
+                $expr->add($qb->expr()
+                    ->orx($qb->expr()
+                    ->eq($alias . '.' . $config['level'], $qb->expr()
+                    ->literal($node->getPropertyValue($config['level']))), $qb->expr()
+                    ->eq($alias . '.' . $config['level'], $qb->expr()
+                    ->literal($node->getPropertyValue($config['level']) + 1))));
             }
         }
         elseif ($direct)
         {
             $expr = $qb->expr()
-                ->not(
-                $qb->expr()
-                    ->like($alias . '.' . $path,
-                    $qb->expr()
-                        ->literal(
-                        ($config['path_starts_with_separator'] ? $separator : '') . '%' . $separator . '%' .
-                        ($config['path_ends_with_separator'] ? $separator : ''))));
+                ->not($qb->expr()
+                ->like($alias . '.' . $path, $qb->expr()
+                ->literal(($config['path_starts_with_separator'] ? $separator : '') . '%' . $separator . '%' . ($config['path_ends_with_separator'] ? $separator : ''))));
         }
 
         if ($expr)

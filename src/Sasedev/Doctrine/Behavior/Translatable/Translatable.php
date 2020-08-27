@@ -1,5 +1,4 @@
 <?php
-
 namespace Sasedev\Doctrine\Behavior\Translatable;
 
 /**
@@ -12,23 +11,27 @@ namespace Sasedev\Doctrine\Behavior\Translatable;
  */
 interface Translatable
 {
+
     // use now annotations instead of predefined methods, this interface is not necessary
 
-    /**
-     * @sasedev:TranslationEntity
-     * to specify custom translation class use
-     * class annotation @sasedev:TranslationEntity(class="your\class")
-     */
+/**
+ *
+ * @sasedev:TranslationEntity
+ * to specify custom translation class use
+ * class annotation @sasedev:TranslationEntity(class="your\class")
+ */
 
-    /**
-     * @sasedev:Translatable
-     * to mark the field as translatable,
-     * these fields will be translated
-     */
+/**
+ *
+ * @sasedev:Translatable
+ * to mark the field as translatable,
+ * these fields will be translated
+ */
 
-    /**
-     * @sasedev:Locale OR @sasedev:Language
-     * to mark the field as locale used to override global
-     * locale settings from TranslatableListener
-     */
+/**
+ *
+ * @sasedev:Locale OR @sasedev:Language
+ * to mark the field as locale used to override global
+ * locale settings from TranslatableListener
+ */
 }
