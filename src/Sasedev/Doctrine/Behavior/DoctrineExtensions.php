@@ -22,7 +22,7 @@ final class DoctrineExtensions
     /**
      * Current version of extensions
      */
-    const VERSION = 'v1.0.2';
+    const VERSION = 'v1.0.3';
 
     /**
      * Hooks all extensions metadata mapping drivers
